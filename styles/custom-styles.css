@@ -28,7 +28,11 @@
         }
 
         > div{
-            padding: 1rem;
+            padding: 0 1rem 1rem;
+
+            p{
+                margin-top:0;
+            }
         }
 
         &[open]{
