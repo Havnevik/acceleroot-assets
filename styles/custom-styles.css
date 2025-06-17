@@ -76,8 +76,8 @@ button.more-button:hover{
         }
        
     }
-    &.use-custom-bg,
-    &.use-alt-bg{
+    &.has-custom-bg .container,
+    &.has-alt-bg .container{
         max-width: unset;
         width: 100%;
     }
