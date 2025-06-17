@@ -81,21 +81,24 @@ button.more-button:hover{
         width: 100%;
     }
 
-    .use-negative-colors{
+    .use-negative-colors:not(.use-negative-colors.use-white-bg){
         .more-button,
         details{
             border-color: var(--color-sand);
             color: var(--color-sand);
         }
     }
+    .use-white-bg{
+        background-color: #fff;
+    }
 
 }
-@media screen and (max-width: 640px) {
+@media screen and (max-width: 680px) {
     .section--infobox details{
         width: 90%;
 
         summary{
-            padding-right: 3rem;
+            padding-right: 4rem;
         }
     }
 }
