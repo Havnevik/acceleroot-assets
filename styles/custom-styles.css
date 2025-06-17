@@ -90,3 +90,10 @@ button.more-button:hover{
     }
 
 }
+@media screen(max-width: 40rem) {
+    .container.use-custom-bg,
+    &.has-alt-bg .container{
+        max-width: unset;
+        width: 90%;
+    }
+}
