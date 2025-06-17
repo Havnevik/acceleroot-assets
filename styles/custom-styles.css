@@ -17,10 +17,13 @@
                 right: 1rem;
                 top: 1rem;
                 width: 2.5rem;
-                height: 2.5rem;
+                height: 3.5rem;
                 display: flex;
-                place-content: center;
+                justify-content: center;
+                align-items: center;
+                font-size: 1.5rem;
                 content: '↓';
+
             }
         }
 
