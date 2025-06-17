@@ -10,6 +10,14 @@
 
         summary{
             padding: 1rem;
+
+            &::after{
+                content: '↓';
+            }
+        }
+
+        &[open] summary::after{
+            content: '↑';
         }
        
     }
