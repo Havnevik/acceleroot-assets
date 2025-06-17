@@ -81,15 +81,21 @@ button.more-button:hover{
         width: 100%;
     }
 
-    .use-negative-colors:not(.use-negative-colors.use-white-bg){
+    .use-negative-colors{
         .more-button,
         details{
             border-color: var(--color-sand);
             color: var(--color-sand);
         }
     }
-    .use-white-bg{
+    .use-white-bg details{
         background-color: #fff;
+        
+        .more-button,
+        details{
+        border-color: var(--color-brown);
+            color: var(--color-brown);
+        }
     }
 
 }
