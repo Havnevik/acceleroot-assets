@@ -57,4 +57,9 @@
         }
        
     }
+    &.use-custom-bg,
+    &.use-alt-bg{
+        max-width: unset;
+        width: 100%;
+    }
 }
