@@ -5,6 +5,17 @@
     --color-yellow: #DBA904;
 }
 
+button.more-button,
+button.more-button:hover{
+    pointer-events: none;
+    background-color: unset !important;
+    border: 1px solid var(--color-brown) !important;
+    color: var(--color-brown) !important;
+    border-radius: 1.5rem;
+    padding: 0.25rem 0.75rem;
+
+}
+
 /* Custom sections */
 .section--infobox{
 
@@ -71,13 +82,4 @@
         width: 100%;
     }
 
-    button.more-button,
-    button.more-button:hover{
-        background-color: unset !important;
-        border: 1px solid var(--color-brown) !important;
-        color: var(--color-brown) !important;
-        border-radius: 1.5rem;
-        padding: 0.25rem 0.75rem;
-
-    }
 }
