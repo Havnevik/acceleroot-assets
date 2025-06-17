@@ -90,7 +90,7 @@ button.more-button:hover{
     }
 
 }
-@media screen(max-width: 640px) {
+@media screen and (max-width: 640px) {
     .section--infobox details{
         width: 90%;
 
