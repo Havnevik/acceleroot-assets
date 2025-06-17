@@ -1,1 +1,17 @@
 /* Acceleroot Shopify assets */
+
+/* Custom sections */
+.section--infobox{
+    details{
+        &.arrow{}
+        &.chevron{}
+        &.plus{}
+        &.read{}
+        &.show{}
+
+        padding: 1rem;
+        border: 1px solid #000;
+        border-radius: 0.25rem;
+       
+    }
+}
