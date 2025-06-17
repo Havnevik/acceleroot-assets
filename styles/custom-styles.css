@@ -88,12 +88,11 @@ button.more-button:hover{
             color: var(--color-sand);
         }
     }
-    .use-white-bg details{
-        background-color: #fff;
-        
+    .use-white-bg { 
         .more-button,
         details{
-        border-color: var(--color-brown);
+             background-color: #fff;
+            border-color: var(--color-brown);
             color: var(--color-brown);
         }
     }
