@@ -7,11 +7,19 @@
         margin-right: auto;
         border: 1px solid #000;
         border-radius: 0.25rem;
+        position: relative;
 
         summary{
             padding: 1rem;
 
             &::after{
+                position: absolute;
+                right: 1rem;
+                top: 1rem;
+                width: 2.5rem;
+                height: 2.5rem;
+                display: flex;
+                place-content: center;
                 content: '↓';
             }
         }
