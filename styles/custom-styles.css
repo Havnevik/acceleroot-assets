@@ -16,8 +16,14 @@
             }
         }
 
-        &[open] summary::after{
-            content: '↑';
+        > div{
+            padding: 1rem;
+        }
+
+        &[open]{
+             summary::after{
+                content: '↑';
+            }
         }
        
     }
