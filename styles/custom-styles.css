@@ -126,6 +126,7 @@ button.more-button:hover{
         header{
             flex-direction: column;
             margin: auto;
+            margin-bottom: 0.75rem;
 
             &.align-left{
                 justify-content: unset;
@@ -174,55 +175,3 @@ button.more-button:hover{
     }
 }
 
-
-/*
-
-.study-section {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  align-items: flex-start;
-}
-.study-section ul {
-  width: 100%;
-  display: flex;
-  list-style: none;
-  flex-direction: row;
-  margin: 0;
-  padding: 0;
-  gap: 1rem;
-  box-sizing: border-box;
-}
-.study-section li {
-width: 100% !important;
-  max-width: calc(33% - 0.5rem);
-  display: flex;
-  justify-content: Center;
-  background-color: #fff;
-  padding: 1rem;
-}
-.study-section header{
-padding:0;}
-.study-section h2 {
-text-align:left;
-}
-.study-section p {
-margin-top:unset;
-margin-bottom:unset;
-}
-.study-section h3 {
-text-align: center;
-  font-size: clamp(1.25rem, 6vw, 6rem);
-}
-.study-section small {
-  font-size: clamp(0.875rem, 1vw, 1rem);
-  display: block;
-  font-weight: 400;
-}
-@media (min-width: 768px) {
-  .study-section ul {
-    flex-direction: row;
-  }
-}
-*/
