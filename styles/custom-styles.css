@@ -18,6 +18,12 @@ button.more-button:hover{
 }
 
 /* Custom sections */
+
+
+/* ------------------------------------------------
+    INFOBOX sections 
+   ------------------------------------------------ */
+
 .section--infobox{
 
     details{
@@ -105,5 +111,16 @@ button.more-button:hover{
         summary{
             padding-right: 4rem;
         }
+    }
+}
+
+/* ------------------------------------------------
+    CARDS WITH BIG NUMBERS sections 
+   ------------------------------------------------ */
+
+.section--cards-with-big-numbers{
+    header{
+        display: flex;
+        flex-direction: column;
     }
 }
