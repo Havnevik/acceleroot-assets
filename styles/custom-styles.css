@@ -119,17 +119,22 @@ button.more-button:hover{
    ------------------------------------------------ */
 
 .section--cards-with-big-numbers{
-    header{
+    > div{
+        display: flex;
         flex-direction: column;
-        margin: auto;
+        
+        header{
+            flex-direction: column;
+            margin: auto;
 
-        &.align-left{
-            justify-content: unset;
-            align-items: flex-start;
-        }
-        &.align-right{
-            justify-content: unset;
-            align-items: flex-end;
+            &.align-left{
+                justify-content: unset;
+                align-items: flex-start;
+            }
+            &.align-right{
+                justify-content: unset;
+                align-items: flex-end;
+            }
         }
     }
 }
