@@ -157,12 +157,14 @@ button.more-button:hover{
                 justify-content: Center;
                 background-color: #fff;
                 padding: 1rem;
+                border-radius: 0.25rem;
+                color: var(--color-brown);
 
                 h3{
                     text-align: center;
                     font-size: clamp(1.25rem, 6vw, 6rem);
 
-                    .small{
+                    small{
                         font-size: clamp(0.875rem, 1vw, 1rem);
                         display: block;
                         font-weight: 400;
