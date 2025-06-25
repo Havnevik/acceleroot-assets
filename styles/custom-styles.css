@@ -6,6 +6,10 @@
     --color-sand: #EFEAE0;
 }
 
+/* ------------------------------------------------
+    Knapper 
+   ------------------------------------------------ */
+
 button.more-button,
 button.more-button:hover{
     pointer-events: none;
@@ -17,11 +21,17 @@ button.more-button:hover{
 
 }
 
+.button.outline{
+    background-color: transparent;
+    color: var(--color-brown);
+    border: 1px solid  var(--color-brown);
+}
+
 /* Custom sections */
 
 
 /* ------------------------------------------------
-    INFOBOX sections 
+    AR INFOBOX sections 
    ------------------------------------------------ */
 
 .section--infobox{
@@ -115,7 +125,7 @@ button.more-button:hover{
 }
 
 /* ------------------------------------------------
-    CARDS WITH BIG NUMBERS sections 
+    AR CARDS WITH BIG NUMBERS sections 
    ------------------------------------------------ */
 
 .section--cards-with-big-numbers{
@@ -177,7 +187,7 @@ button.more-button:hover{
 
 
 /* ------------------------------------------------
-    CARDS WITH BIG NUMBERS sections 
+    AR CARDS WITH BIG NUMBERS sections 
    ------------------------------------------------ */
 
 .section--before-after{
@@ -327,4 +337,179 @@ button.more-button:hover{
         flex-direction: column;
       }
     }
+}
+
+
+/* ------------------------------------------------
+    AR HERO BANNER sections 
+   ------------------------------------------------ */
+
+.section--hero-banner > div{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.hero_layout-classic{
+    > div{
+        position: relative;
+        width: 100%;
+        max-width: unset;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        padding-top: 9rem;
+        padding-bottom: 1.5rem;
+        gap: 0.5rem; 
+
+        header{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 64rem;
+
+            h1, h2{
+                /*font-size: 1.125rem; */
+                font-size:clamp(1.125rem,2vw ,2rem);
+                max-width:50ch;
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                text-align: left;
+
+            }
+
+            small{
+                display: flex;
+                font-size: 0.875rem;
+                font-weight: 500;
+                margin-bottom:0.5rem;
+                text-align: left;
+                
+            }
+        }
+        .hero-points {
+            /*display: flex;
+            justify-content:center;
+            gap:1rem;
+            align-items:center;*/
+            width: 100%;
+            max-width: 64rem;
+            display: grid;
+            grid-template-columns: 0.7fr 1.3fr;
+            gap: 0.5rem;
+            align-items: center;
+
+            > div{
+                width: 100%;
+                height:auto;
+                aspect-ratio: 2 / 3;
+                max-width: 12rem;
+                object-fit: cover;
+                display: flex;
+                justify-self: flex-end;
+                margin: unset;
+
+            }
+
+            ul{
+                width: 100%;
+                list-style:none;
+                padding-left:unset;
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                gap:0.125rem;
+                
+                li{
+                    font-size:0.75rem;
+                    margin-bottom:0.5rem;
+                    display: flex;
+                    gap: 0.5rem;
+                    justify-content: left;
+                    text-align: left;
+                    align-items: center;
+
+                    span{
+                            line-height: 1.33;
+                    }
+                }
+            }
+        }
+        .button-row{
+            display: flex;
+            flex-direction: column-reverse;
+            gap:1rem;
+            margin-top: unset;
+            width: 100%;
+
+            .button{
+                width: 100%;
+            }
+        }
+    }
+    .align-center{
+        text-align: center;
+    }
+    .align-block-center{
+        justify-content: center;
+    }
+    .align-right{
+        text-align: right;
+    }
+    .align-block-right{
+            justify-content: flex-end;
+    }
+}
+
+/*@media (min-width: 400px){} */
+
+@media (min-width: 768px){
+    .hero_layout-classic{
+        > div{
+            padding-left: 2rem;
+            padding-right: 2rem;
+            padding-top:11rem;
+            padding-bottom:3rem;
+
+            header{
+                h1, h2{
+                    align-items: center;
+                    text-align: unset;
+
+                    small{
+                        text-align: unset;
+                    }
+                }
+            }
+            .hero-points{
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.5rem;
+
+                > div{
+                    min-width: 16rem;
+                }
+                ul{
+                    gap:0.5rem;
+                    li{
+                        font-size:clamp(0.875rem,1.5vw ,1rem);
+                    }
+                }
+            }
+            .button-row{ 
+                display:flex;
+                flex-direction: row;
+                justify-content: center;
+                gap:1.5rem;
+                width:100%;
+
+                .button{
+                    max-width: 14rem;
+                    padding: 1.125rem;
+                }      
+            }
+        }
+    } 
 }
