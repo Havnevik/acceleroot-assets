@@ -1,5 +1,7 @@
 
-document.addEventListener("DOMContentLoaded", () => {
+(function() {
+  function init() {
+
   // === BEFORE/AFTER BILDEKOMPONENTER ===
   const imageComparisons = document.querySelectorAll('.image-comparison');
 
@@ -165,4 +167,12 @@ document.addEventListener("DOMContentLoaded", () => {
     // Init
     updateArrowVisibility();
   }
-});
+
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init(); // DOM er allerede lastet
+  }
+})();
