@@ -816,7 +816,8 @@ button.more-button:hover {
           text-align: center;
 
           small{
-            font-size: 60%;
+            display: block;
+            font-size: 80%;
           }
 
         }
