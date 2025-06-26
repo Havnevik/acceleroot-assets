@@ -815,11 +815,31 @@ button.more-button:hover {
                     position: relative;
                     z-index: 2;
                     padding: 1rem;
-                    background-color: var(--color-yellow);
+                    /*background-color: var(--color-yellow);*/
+                    background-color: rgba(255,255,255,0.35);
+                    backdrop-filter: blur(0.25rem);
                     border-bottom-left-radius: 0.25rem;
                     border-bottom-right-radius: 0.25rem;
                     font-size: clamp(0.75rem, 1.5vw, 1.5rem);
                     text-align: center;
+                }
+
+                &::after{
+                    position: absolute;
+                    z-index: 30;
+                    content: '';
+                    width: 3rem;
+                    height: auto;
+                    border-radius: 1.5rem;
+                    aspect-ratio: 1/1;
+                    background-color: rgba(255,255,255,0.35);
+                    background-image: url('data:image/svg+xml,<svg class="custom-icon custom-icon-vegan" width="23" height="23" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20.3 0a.3.3 0 0 0-.4.2 9.8 9.8 0 0 1-2.4 3.7 9.7 9.7 0 0 0-12.7.6 10.9 10.9 0 0 0-4.6.2.3.3 0 0 0-.1.5c1.5 1.1 2 2 2.2 3.2a9.7 9.7 0 0 0 6 12.3l2.3.5.1 1.5c0 .2.1.3.3.3h1c.2 0 .3-.1.3-.3v-1.5a9.7 9.7 0 0 0 9-9.5l1.1-2.3a8.4 8.4 0 0 0-2-9.3Zm-8.8 2.3c2 0 4 .7 5.6 2-.2 0-.3.2-.5.4l-.2.1a8.2 8.2 0 0 0-4.9-1.6c-1.8 0-3.6.6-5.1 1.8l-1-.4a9 9 0 0 1 6-2.3Zm.8 11.9-.9 2.4c-.3-1.1-.7-2.2-1.2-3.2a7.7 7.7 0 0 0-3.3-8.2 7.7 7.7 0 0 1 9 0l-1.2 1.1c-2.5 2.4-2.5 5-2.4 7.9Zm-3.2.3c.6 1.5 1 3 1.3 4.7a7.8 7.8 0 0 1-6.6-6.7c1 1.2 2.8 1.8 5.3 2Zm-6.8-3c0-.7 0-1.3.2-2v.2l.1.3c.1.6.3 1.2.6 1.7a8.3 8.3 0 0 0 7.3 8v1a9.1 9.1 0 0 1-8.2-9.2Zm9.5 11h-.6A22.8 22.8 0 0 0 9.5 14a25 25 0 0 0-1.6-3.3c1.5 2 2.7 4.5 3.3 7l.2.2c.2 0 .3-.1.3-.2a17 17 0 0 1 1-3.2h.1a14 14 0 0 1 3.7-4.6c1-.8 1.7-1.6 2.5-2.8-.6 1-1.3 2.1-2.2 3a16.3 16.3 0 0 0-3.4 4.4 18 18 0 0 0-1.6 8Zm2-7.8 1.9-.4c1-.2 2.2-.4 3.3-.9-.8 3-3.3 5.4-6.5 5.8.3-1.6.7-3 1.4-4.5Zm-1.4 6v-1a8.2 8.2 0 0 0 7.2-6.6 6 6 0 0 0 1-.8 9 9 0 0 1-8.2 8.3Z" fill="%23FFFFFF"/></svg>');
+                    background-repeat: no-repeat;
+                    background-position: center;
+                    background-size: 75%;
+                    right: 1rem;
+                    bottom:3rem;
+                    backdrop-filter: blur(0.25rem);
                 }
             }
         }
@@ -844,6 +864,15 @@ button.more-button:hover {
                     bottom: 10vh;
                     border-radius: 0.25rem;
                 }
+
+                &::after{
+                    top:2rem;
+                    right: 2rem;
+                    background-color: rgba(255,255,255,0.25);
+                    width: 4rem;
+                    border-radius: 2rem;
+                }
+                    
             }
 
             .rimage-outer-wrapper {
