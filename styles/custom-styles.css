@@ -837,7 +837,7 @@ button.more-button:hover {
                     background-position: center;
                     background-size: 75%;
                     right: 1rem;
-                    bottom:3rem;
+                    bottom:4.5rem;
                     backdrop-filter: blur(0.25rem);
                 }
             }
