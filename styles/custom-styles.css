@@ -945,7 +945,7 @@ button.more-button:hover {
         overflow-x: auto;
         overflow-y: hidden;
         display: flex;
-        gap: 1rem;
+        gap: 2rem;
         padding: 1rem 0;
         scrollbar-width: none;
         -ms-overflow-style: none;
@@ -1086,7 +1086,7 @@ button.more-button:hover {
       }
     }
     .testimonial-slider > section.testimonial-scroll article {
-      min-width: 20rem;
+      min-width: 24rem;
     }
   }
 }
