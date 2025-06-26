@@ -814,7 +814,7 @@ button.more-button:hover {
           border-bottom-right-radius: 0.25rem;
           font-size: clamp(0.75rem, 1.25vw, 1.25rem);
           text-align: center;
-
+          font-weight: 700;
           small{
             display: block;
             font-size: 80%;
@@ -859,7 +859,7 @@ button.more-button:hover {
           position: absolute;
           padding: 1rem 2rem;
           /* background-color: var(--color-yellow); */
-          background-color: rgba(255, 255, 255, 0.5);
+          background-color: rgba(255, 255, 255, 0.7);
           -webkit-backdrop-filter: blur(0.25rem);
                   backdrop-filter: blur(0.25rem);
           bottom: 5vh;
