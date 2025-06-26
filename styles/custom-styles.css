@@ -566,6 +566,7 @@ button.more-button:hover {
 #page-content .money-back-guarantee .content {
   padding-left: 0.5rem;
   padding-right: 0.5rem;
+  background-color: transparent;
 }
 
 .money-back-guarantee {
