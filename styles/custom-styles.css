@@ -197,7 +197,7 @@ button.more-button:hover {
 
 
 /* ------------------------------------------------
-    AR CARDS WITH BIG NUMBERS sections 
+    AR BEFORE / AFTER sections 
    ------------------------------------------------ */
 
 .section--before-after {
@@ -242,7 +242,8 @@ button.more-button:hover {
         .label-start,
         .label-result {
             display: block;
-            background-color: rgba(255, 255, 255, 0.85);
+            background-color: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(0.25rem);
             border-radius: .25rem;
             padding: 0.5rem 0.75rem;
             position: absolute;
