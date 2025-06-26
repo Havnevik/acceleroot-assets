@@ -860,7 +860,8 @@ button.more-button:hover {
                     width: auto;
                     position: absolute;
                     padding: 1rem 2rem;
-                    background-color: var(--color-yellow);
+                    /* background-color: var(--color-yellow); */
+                    background-color: rgba(255,255,255,0.35);
                     bottom: 10vh;
                     border-radius: 0.25rem;
                 }
