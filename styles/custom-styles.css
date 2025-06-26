@@ -855,7 +855,7 @@ button.more-button:hover {
                 margin-bottom: 3rem;
             }
 
-            .selected-ingredients>li {
+            .selected-ingredients > li {
                 span {
                     width: auto;
                     position: absolute;
