@@ -557,7 +557,8 @@ button.more-button:hover {
     AR MONEY BACK GUARANTEE sections 
    ------------------------------------------------ */
 .section--money-back-guarantee{
-  &.has-alt-bg {
+  &.has-alt-bg,
+  &.has-alt-bg .reading-width.content {
     background-color: var(--color-sand);
   }
 }
