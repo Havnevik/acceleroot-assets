@@ -100,9 +100,10 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     const updateArrowVisibility = () => {
-      const { currentIndex, maxIndex } = getSnapInfo();
-      leftBtn.style.display = currentIndex === 0 ? "none" : "block";
-      rightBtn.style.display = currentIndex === maxIndex ? "none" : "block";
+      const maxScrollLeft = slider.scrollWidth - slider.clientWidth;
+
+      leftBtn.style.display = slider.scrollLeft <= 1 ? "none" : "block";
+      rightBtn.style.display = slider.scrollLeft >= maxScrollLeft - 1 ? "none" : "block";
     };
 
     // Piler
