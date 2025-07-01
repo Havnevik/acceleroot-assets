@@ -3,6 +3,7 @@
 :root {
   --color-brown: #3e3e30;
   --color-yellow: #dba904;
+  --color-oil: #99792C;
   --color-sand: #efeae0;
 }
 
@@ -1066,6 +1067,12 @@ button.more-button:hover {
         }
       }
     }
+  }
+  .testimonial-disclaimer{
+    text-align: center;
+    color: var(--color-oil);
+    font-size: 65%;
+  font-weight: 600;
   }
 }
 
