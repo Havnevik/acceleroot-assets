@@ -176,7 +176,7 @@ button.more-button:hover {
 
         h3 {
           text-align: center;
-          font-size: clamp(1.25rem, 6vw, 6rem);
+          font-size: clamp(3rem, 6vw, 6rem);
 
           small {
             font-size: clamp(0.875rem, 1vw, 1rem);
@@ -1071,6 +1071,7 @@ button.more-button:hover {
   .testimonial-disclaimer{
     text-align: center;
     color: var(--color-oil);
+    line-height: 1;
  
     small{
        font-weight: 600;
