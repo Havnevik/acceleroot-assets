@@ -1,178 +1,198 @@
 
-(function() {
-  function init() {
+(function () {
+  const dragThreshold = 5;
+  let isDragging = false;
 
-  // === BEFORE/AFTER BILDEKOMPONENTER ===
-  const imageComparisons = document.querySelectorAll('.image-comparison');
+  function enableImageComparisons() {
+    document.querySelectorAll('.image-comparison').forEach(container => {
+      const figure = container.querySelector('figure');
+      const handle = container.querySelector('.handle');
+      const labelStart = container.querySelector('.label-start');
+      const labelResult = container.querySelector('.label-result');
+      if (!figure) return;
 
-  imageComparisons.forEach((container) => {
-    const figure = container.querySelector('figure');
-    const handle = container.querySelector('.handle');
-    if (!figure) return;
-
-    const labelStart = container.querySelector('.label-start');
-    const labelResult = container.querySelector('.label-result');
-
-    function setComparisonPosition(clientX) {
-      const rect = figure.getBoundingClientRect();
-      let percent = ((clientX - rect.left) / rect.width) * 100;
-      percent = Math.max(0, Math.min(100, percent));
-      container.style.setProperty('--position', `${percent}%`);
-      if (handle) handle.style.left = `${percent}%`;
-
-      if (labelStart) {
-        labelStart.style.opacity = percent < 10 ? '0' : '1';
-        labelStart.style.transition = 'opacity 0.2s ease';
+      function setPosition(clientX) {
+        const rect = figure.getBoundingClientRect();
+        let percent = ((clientX - rect.left) / rect.width) * 100;
+        percent = Math.max(0, Math.min(100, percent));
+        container.style.setProperty('--position', `${percent}%`);
+        if (handle) handle.style.left = `${percent}%`;
+        if (labelStart) labelStart.style.opacity = percent < 10 ? '0' : '1';
+        if (labelResult) labelResult.style.opacity = percent > 90 ? '0' : '1';
       }
-      if (labelResult) {
-        labelResult.style.opacity = percent > 90 ? '0' : '1';
-        labelResult.style.transition = 'opacity 0.2s ease';
-      }
-    }
 
-    let isComparisonDragging = false;
+      let isDragging = false;
+      const onMove = e => isDragging && setPosition(e.clientX);
+      const end = () => {
+        isDragging = false;
+        window.removeEventListener('pointermove', onMove);
+        window.removeEventListener('pointerup', end);
+      };
 
-    const onComparisonMove = (e) => {
-      if (!isComparisonDragging) return;
-      setComparisonPosition(e.clientX);
-    };
-
-    const endComparisonDrag = () => {
-      isComparisonDragging = false;
-      window.removeEventListener('pointermove', onComparisonMove);
-      window.removeEventListener('pointerup', endComparisonDrag);
-    };
-
-    container.addEventListener('pointerdown', (e) => {
-      isComparisonDragging = true;
-      setComparisonPosition(e.clientX);
-      window.addEventListener('pointermove', onComparisonMove);
-      window.addEventListener('pointerup', endComparisonDrag);
-    });
-
-    container.addEventListener('touchstart', (e) => {
-      if (e.touches.length === 1) {
-        setComparisonPosition(e.touches[0].clientX);
-      }
-    }, { passive: true });
-
-    container.addEventListener('touchmove', (e) => {
-      if (e.touches.length === 1) {
-        setComparisonPosition(e.touches[0].clientX);
-      }
-    }, { passive: true });
-  });
-
-  // === TESTIMONIAL SLIDER ===
-  const slider = document.querySelector(".testimonial-scroll");
-  const leftBtn = document.querySelector(".testimonial-slider-arrow.left");
-  const rightBtn = document.querySelector(".testimonial-slider-arrow.right");
-
-  if (slider && leftBtn && rightBtn) {
-    const getSnapInfo = () => {
-      const children = Array.from(slider.children);
-      const scrollLeft = slider.scrollLeft;
-      let closestIndex = 0;
-      let minDistance = Infinity;
-
-      children.forEach((child, index) => {
-        const distance = Math.abs(child.offsetLeft - scrollLeft);
-        if (distance < minDistance) {
-          minDistance = distance;
-          closestIndex = index;
-        }
+      container.addEventListener('pointerdown', e => {
+        isDragging = true;
+        setPosition(e.clientX);
+        window.addEventListener('pointermove', onMove);
+        window.addEventListener('pointerup', end);
       });
 
-      return {
-        children,
-        currentIndex: closestIndex,
-        maxIndex: children.length - 1
-      };
+      container.addEventListener('touchstart', e => {
+        if (e.touches.length === 1) setPosition(e.touches[0].clientX);
+      }, { passive: true });
+
+      container.addEventListener('touchmove', e => {
+        if (e.touches.length === 1) setPosition(e.touches[0].clientX);
+      }, { passive: true });
+    });
+  }
+
+  function initHorizontalSlider(wrapperSelector, scrollSelector, leftBtnSelector, rightBtnSelector) {
+    const container = document.querySelector(wrapperSelector);
+    const scrollContainer = container?.querySelector(scrollSelector);
+    const leftBtn = container?.querySelector(leftBtnSelector);
+    const rightBtn = container?.querySelector(rightBtnSelector);
+    if (!scrollContainer || !leftBtn || !rightBtn) return;
+
+    const updateArrows = () => {
+      const max = scrollContainer.scrollWidth - scrollContainer.clientWidth;
+      leftBtn.style.display = scrollContainer.scrollLeft <= 1 ? 'none' : 'block';
+      rightBtn.style.display = scrollContainer.scrollLeft >= max - 1 ? 'none' : 'block';
     };
 
-    const scrollToIndex = (index) => {
-      const { children } = getSnapInfo();
-      const target = children[index];
-      if (target) {
-        slider.scrollTo({
-          left: target.offsetLeft,
-          behavior: "smooth"
-        });
+    leftBtn.addEventListener('click', () => {
+      const card = scrollContainer.querySelector('article');
+      const w = card?.offsetWidth || 300;
+      scrollContainer.scrollBy({ left: -(w + 24), behavior: 'smooth' });
+    });
+
+    rightBtn.addEventListener('click', () => {
+      const card = scrollContainer.querySelector('article');
+      const w = card?.offsetWidth || 300;
+      scrollContainer.scrollBy({ left: w + 24, behavior: 'smooth' });
+    });
+
+    scrollContainer.addEventListener('scroll', () => requestAnimationFrame(updateArrows));
+
+    // Drag med mus
+    let startX = 0, scrollStart = 0;
+    scrollContainer.addEventListener('mousedown', e => {
+      isDragging = true;
+      scrollContainer.classList.add('dragging');
+      startX = e.pageX - scrollContainer.offsetLeft;
+      scrollStart = scrollContainer.scrollLeft;
+    });
+
+    scrollContainer.addEventListener('mousemove', e => {
+      if (!isDragging) return;
+      const x = e.pageX - scrollContainer.offsetLeft;
+      scrollContainer.scrollLeft = scrollStart - (x - startX);
+    });
+
+    ['mouseup', 'mouseleave'].forEach(evt => {
+      scrollContainer.addEventListener(evt, () => {
+        isDragging = false;
+        scrollContainer.classList.remove('dragging');
+      });
+    });
+
+    updateArrows();
+  }
+
+  function enableModalCards() {
+    const scrollContainer = document.querySelector('.modal-cards-scroll');
+    const originalContainer = document.querySelector('.acceleroot-modal');
+    if (!scrollContainer || !originalContainer) return;
+
+    // Bygg overlay og legg til i DOM
+    const overlay = document.createElement('div');
+    overlay.id = 'modal-overlay';
+    overlay.setAttribute('role', 'dialog');
+    overlay.setAttribute('aria-modal', 'true');
+    overlay.setAttribute('tabindex', '-1');
+    document.body.appendChild(overlay);
+
+    let lastFocused = null;
+
+    const trapFocus = (el) => {
+      const f = el.querySelectorAll('a, button, [tabindex]:not([tabindex="-1"])');
+      const first = f[0], last = f[f.length - 1];
+      el.addEventListener('keydown', e => {
+        if (e.key !== 'Tab') return;
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      });
+    };
+
+    const closeModal = () => {
+      const section = overlay.querySelector('section[data-block-id]');
+      if (section) {
+        section.style.display = 'none';
+        originalContainer.appendChild(section);
       }
+      overlay.classList.remove('active');
+      document.body.style.overflow = '';
+      lastFocused?.focus();
     };
 
-    const updateArrowVisibility = () => {
-      const maxScrollLeft = slider.scrollWidth - slider.clientWidth;
+    const openModal = (blockId) => {
+      const section = originalContainer.querySelector(`section[data-block-id="${blockId}"]`);
+      if (!section) return;
 
-      leftBtn.style.display = slider.scrollLeft <= 1 ? "none" : "block";
-      rightBtn.style.display = slider.scrollLeft >= maxScrollLeft - 1 ? "none" : "block";
+      lastFocused = document.activeElement;
+      const modalInner = document.createElement('div');
+      modalInner.className = 'modal-inner';
+
+      const closeBtn = document.createElement('button');
+      closeBtn.innerHTML = '&times;';
+      closeBtn.className = 'modal-close-btn';
+      closeBtn.setAttribute('aria-label', 'Lukk');
+      modalInner.appendChild(closeBtn);
+
+      section.style.display = 'block';
+      modalInner.appendChild(section);
+      overlay.innerHTML = '';
+      overlay.appendChild(modalInner);
+      overlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      section.setAttribute('tabindex', '-1');
+      section.focus();
+      trapFocus(overlay);
+
+      closeBtn.addEventListener('click', closeModal);
     };
 
-    // Piler
-    leftBtn.addEventListener("click", () => {
-      const { currentIndex } = getSnapInfo();
-      if (currentIndex > 0) scrollToIndex(currentIndex - 1);
+    overlay.addEventListener('click', e => {
+      if (e.target === overlay) closeModal();
     });
 
-    rightBtn.addEventListener("click", () => {
-      const { currentIndex, maxIndex } = getSnapInfo();
-      if (currentIndex < maxIndex) scrollToIndex(currentIndex + 1);
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && overlay.classList.contains('active')) closeModal();
     });
 
-    slider.addEventListener("scroll", () => {
-      window.requestAnimationFrame(updateArrowVisibility);
+    scrollContainer.querySelectorAll('article').forEach(article => {
+      let clickStart = { x: 0, y: 0 };
+      article.addEventListener('mousedown', e => {
+        clickStart = { x: e.clientX, y: e.clientY };
+      });
+      article.addEventListener('click', e => {
+        if (isDragging) return;
+        const dist = Math.hypot(e.clientX - clickStart.x, e.clientY - clickStart.y);
+        if (dist > dragThreshold) return;
+        openModal(article.id);
+      });
     });
-
-    // Dra med mus
-    let isSliderDragging = false;
-    let startX;
-    let scrollStart;
-
-    const disableSnap = () => {
-      slider.style.scrollSnapType = "none";
-    };
-
-    const enableSnap = () => {
-      slider.style.scrollSnapType = "x mandatory";
-    };
-
-    slider.addEventListener("mousedown", (e) => {
-      isSliderDragging = true;
-      slider.classList.add("dragging");
-      disableSnap();
-      startX = e.pageX - slider.offsetLeft;
-      scrollStart = slider.scrollLeft;
-    });
-
-    slider.addEventListener("mousemove", (e) => {
-      if (!isSliderDragging) return;
-      e.preventDefault();
-      const x = e.pageX - slider.offsetLeft;
-      const walk = (x - startX) * 1.2;
-      slider.scrollLeft = scrollStart - walk;
-    });
-
-    const endSliderDrag = () => {
-      if (!isSliderDragging) return;
-      isSliderDragging = false;
-      slider.classList.remove("dragging");
-      enableSnap();
-      const { currentIndex } = getSnapInfo();
-      scrollToIndex(currentIndex);
-    };
-
-    slider.addEventListener("mouseup", endSliderDrag);
-    slider.addEventListener("mouseleave", endSliderDrag);
-
-    // Init
-    updateArrowVisibility();
   }
 
+  function initAll() {
+    enableImageComparisons();
+    initHorizontalSlider('.testimonial-slider', '.testimonial-scroll', '.testimonial-slider-arrow.left', '.testimonial-slider-arrow.right');
+    initHorizontalSlider('.modal-cards-slider', '.modal-cards-scroll', '.modal-cards-slider-arrow.left', '.modal-cards-slider-arrow.right');
+    enableModalCards();
   }
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", init);
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initAll);
   } else {
-    init(); // DOM er allerede lastet
+    initAll();
   }
 })();
