@@ -1,0 +1,16 @@
+/* Acceleroot Shopify assets */
+
+@use "_root";
+@use "_general";
+
+
+/* Custom sections */
+
+@use "_ar-section-infobox";
+@use "_ar-section-cards-with-big-numbers";
+@use "_ar-section-before-and-after";
+@use "_ar-section-hero-banner";
+@use "_ar-section-money-back";
+@use "_ar-section-ingredients";
+@use "_ar-section-testimonials";
+@use "_ar-section-modal-cards";

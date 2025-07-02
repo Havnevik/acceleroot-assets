@@ -1,0 +1,95 @@
+/* ------------------------------------------------
+    AR INFOBOX sections 
+   ------------------------------------------------ */
+
+.section--infobox {
+  details {
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid var(--color-brown);
+    border-radius: 0.25rem;
+    position: relative;
+
+    summary {
+      padding: 1rem;
+      cursor: pointer;
+    }
+
+    &.arrow summary::after {
+      position: absolute;
+      right: 1rem;
+      top: 1rem;
+      width: 2.5rem;
+      height: 3.5rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.5rem;
+      content: "↓";
+    }
+
+    &.plus summary::after {
+      position: absolute;
+      right: 1rem;
+      top: 1rem;
+      width: 2.5rem;
+      height: 3.5rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.5rem;
+      content: "+";
+    }
+
+    > div {
+      padding: 0 1rem 1rem;
+
+      p {
+        margin-top: 0;
+      }
+    }
+
+    &[open] {
+      &.arrow summary::after {
+        content: "↑";
+      }
+
+      &.plus summary::after {
+        content: "-";
+      }
+    }
+  }
+
+  .container.use-custom-bg,
+  &.has-alt-bg .container {
+    max-width: unset;
+    width: 100%;
+  }
+
+  .use-negative-colors {
+    .more-button,
+    details {
+      border-color: var(--color-sand);
+      color: var(--color-sand);
+    }
+  }
+
+  .use-white-bg {
+    .more-button,
+    details {
+      background-color: #fff;
+      border-color: var(--color-brown);
+      color: var(--color-brown);
+    }
+  }
+}
+
+@media screen and (max-width: 680px) {
+  .section--infobox details {
+    width: 90%;
+
+    summary {
+      padding-right: 4rem;
+    }
+  }
+}

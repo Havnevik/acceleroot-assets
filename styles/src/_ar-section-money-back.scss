@@ -1,0 +1,208 @@
+
+/* ------------------------------------------------
+    AR MONEY BACK GUARANTEE sections 
+   ------------------------------------------------ */
+.section--money-back-guarantee{
+  &.has-alt-bg,
+  &.has-alt-bg .reading-width.content {
+    background-color: var(--color-sand);
+  }
+}
+
+#page-content .money-back-guarantee .content {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  background-color: transparent;
+}
+
+.money-back-guarantee {
+  > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 2rem;
+
+    > article {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      gap: 2rem;
+    }
+
+    header {
+      padding-left: unset;
+      padding-right: unset;
+
+      h2 {
+        margin: unset;
+        font-size: clamp(1.8rem, 3vw, 3rem);
+      }
+    }
+
+    .money-back-guarantee_badge {
+      margin-bottom: 0.5rem;
+
+      &.rimage-outer-wrapper {
+        margin-left: unset;
+        margin-right: unset;
+      }
+    }
+
+    .rimage-outer-wrapper {
+      position: relative;
+
+      .money-back-guarantee_badge {
+        position: absolute;
+        right: 7%;
+        top: 7%;
+        width: min(35%, 10rem);
+        background-color: rgba(255, 255, 255, 0.75);
+        -webkit-backdrop-filter: blur(0.25rem);
+                backdrop-filter: blur(0.25rem);
+        border-radius: 5rem;
+        padding: clamp(0.5rem, 1vw, 1rem);
+      }
+
+      &:not(.money-back-guarantee_badge) {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 1/1;
+        border-radius: 0.25rem;
+      }
+    }
+
+    .rte {
+      p:first-of-type:not(h2 + p) {
+        margin: unset;
+      }
+    }
+
+    .button-row {
+      margin-top: unset;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      align-items: flex-start;
+
+      &.align-block-center {
+        align-items: center;
+      }
+
+      .button {
+        width: 100%;
+        text-align: center;
+      }
+    }
+
+    .money-back-guarantee_instructions {
+      width: 100%;
+
+      > ul {
+        width: 100%;
+        list-style: none;
+        margin-left: unset;
+        padding-left: unset;
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+
+        > li {
+          display: grid;
+          grid-template-columns: 3rem 1fr;
+
+          > i {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 2.25rem;
+            height: auto;
+            aspect-ratio: 1/1;
+            border-radius: 1.5rem;
+            background-color: var(--color-yellow);
+            border: 1px, solid var(--color-yellow);
+            padding: 0.125rem;
+            box-sizing: border-box;
+
+            &.instruction-item-number {
+              font-style: normal;
+              font-weight: 700;
+              font-size: clamp(1.125rem, 1.75vw, 1.75rem);
+            }
+            
+            .rimage-outer-wrapper{
+              display: flex;
+              justify-content: center;
+            }
+          }
+
+          > div {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
+            padding-top: 0.25rem;
+
+            h2,
+            h3 {
+              text-align: left;
+            }
+
+            a {
+              color: var(--color-yellow);
+              border-bottom: 1px solid var(--color-yellow);
+            }
+
+            ul,
+            ol {
+              margin-bottom: 1rem;
+            }
+
+            &.extended_space-between-items ul,
+            &.extended_space-between-items ol {
+              display: flex;
+              flex-direction: column;
+              gap: 1rem;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  #page-content .money-back-guarantee .content {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
+  .money-back-guarantee {
+    > div {
+      .money-back-guarantee_instructions > ul li {
+        gap: 1.5rem;
+
+        > i {
+          width: 3rem;
+        }
+
+        > div {
+          padding-top: 0.5rem;
+        }
+      }
+
+      .button-row {
+        margin-top: unset;
+        display: flex;
+        gap: 1.5rem;
+        align-items: center;
+        justify-content: center;
+        flex-direction: row;
+
+        .button {
+          width: auto;
+          text-align: unset;
+        }
+      }
+    }
+  }
+}
