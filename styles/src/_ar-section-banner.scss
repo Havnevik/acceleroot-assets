@@ -49,15 +49,16 @@
                 flex-direction: row;
                 gap: 1.5rem;
 
-                &.ar-extra-space-below{
-                    margin-bottom: 1.5rem;
-                }
-                 &.ar-extra-space-above{
-                    margin-top: 1.5rem;
-                }
             }
             .button.outline{
                 background-color: transparent;
+            }
+
+            .ar-extra-space-below{
+                margin-bottom: 1.5rem;
+            }
+            .ar-extra-space-above{
+                margin-top: 1.5rem;
             }
 
             &.align-center{
