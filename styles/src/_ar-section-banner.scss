@@ -111,13 +111,13 @@
             }
 
             &.align-center{
-                h1,h2,p{
+                h1,h2,p,.ar-banner-text{
                     text-align: center;
                     align-items: center;
                 }
             }
             &.align-right{
-                h1,h2,p{
+                h1,h2,p,.ar-banner-text{
                     text-align: right;
                     align-items: flex-end;
                 }
