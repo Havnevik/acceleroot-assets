@@ -256,19 +256,23 @@
 
 .modal-close-btn {
   position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
   top: 1rem;
   right: 1rem;
   font-size: 2rem;
   border: none;
   color: black;
   cursor: pointer;
-  z-index: 2; /* Sørg for at den ligger over alt inni modal-inner */
+  z-index: 3; /* Sørg for at den ligger over alt inni modal-inner */
   background-color: #fff;
   width: 3rem;
   height: 3rem;
   padding: unset;
   border-radius: 1.5rem;
-  line-height: 2.85rem;
+  line-height: 3rem;
   font-weight: 300;
 }
 
