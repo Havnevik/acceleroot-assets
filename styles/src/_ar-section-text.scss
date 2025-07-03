@@ -1,0 +1,40 @@
+.use-weighted-font p{
+    font-weight: 600;
+  }
+
+.section--text{
+    > div{
+      max-width: 72ch;
+
+      &.container{
+          h2{
+              font-size: clamp(1.8rem, 2.5vw, 2.5rem);
+          }
+
+          &.align-left{
+            h1,h2,h3,h4,li,p{
+            text-align: left;
+          }
+          &.align-center{
+            h1,h2,h3,h4,li,p{
+            text-align: center;
+          }
+        }
+      }
+      
+      &.large-text{
+        font-size: 120%;
+        line-height: 1.5;
+      }
+      &.featured-headline h2::after{
+        content: "";
+        width: 2.25rem;
+        display: block;
+        margin: .25em auto 0;
+        margin-left: 0;
+        border-top: 3px solid currentColor;
+        transition: width 1.2s cubic-bezier(.13,.88,.62,1) .7s;
+      }
+    }
+  }
+}

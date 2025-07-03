@@ -7,7 +7,7 @@
       "uuidString" : "0D98134F-9B9B-4C7B-A5FD-F09F405F68A6"
     }
   ],
-  "creatorBuild" : "34680",
+  "creatorBuild" : "34704",
   "files" : {
     "\/.gitattributes" : {
       "cB" : 0,
@@ -35,6 +35,17 @@
       "pME" : 1,
       "rFN" : 0,
       "uCM" : 0
+    },
+    "\/scripts\/custom-scripts-min.js" : {
+      "bF" : 0,
+      "ft" : 64,
+      "ma" : 0,
+      "mi" : 1,
+      "oA" : 0,
+      "oAP" : "\/scripts\/custom-scripts-min-min.js",
+      "oF" : 0,
+      "sC" : 3,
+      "tS" : 0
     },
     "\/scripts\/custom-scripts.js" : {
       "bF" : 0,
@@ -159,6 +170,19 @@
       "ma" : 0,
       "oA" : 1,
       "oAP" : "\/styles\/src\/_ar-section-testimonials.css",
+      "oF" : 0,
+      "oS" : 0,
+      "pg" : 0
+    },
+    "\/styles\/src\/_ar-section-text.scss" : {
+      "aP" : 0,
+      "bl" : 0,
+      "co" : 0,
+      "ec" : 1,
+      "ft" : 4,
+      "ma" : 0,
+      "oA" : 1,
+      "oAP" : "\/styles\/src\/_ar-section-text.css",
       "oF" : 0,
       "oS" : 0,
       "pg" : 0
@@ -512,8 +536,6 @@
     "buildFolderActive" : 0,
     "buildFolderName" : "build",
     "cleanBuild" : 1,
-    "cssoForceMediaMerge" : 0,
-    "cssoRestructure" : 1,
     "environmentVariableEntries" : [
       "NODE_ENV:::production"
     ],

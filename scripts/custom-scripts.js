@@ -169,7 +169,7 @@
       if (e.key === 'Escape' && overlay.classList.contains('active')) closeModal();
     });
 
-    scrollContainer.querySelectorAll('article').forEach(article => {
+    scrollContainer.querySelectorAll('article.has-modal').forEach(article => {
       let clickStart = { x: 0, y: 0 };
       article.addEventListener('mousedown', e => {
         clickStart = { x: e.clientX, y: e.clientY };
