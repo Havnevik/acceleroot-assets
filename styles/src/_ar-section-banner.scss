@@ -48,16 +48,20 @@
                 }
 
                 &.position--left{
-                    align-items: flex-start;
+                    left: clamp(20px, 4.5vw, 70px);
+                    right: unset;
                 }
                 &.position--right{
-                    align-items: flex-end;
+                    right: clamp(20px, 4.5vw, 70px);
+                    left: unset;
                 }
                 &.position--top{
-                justify-content: flex-start;
+                    top: clamp(20px, 4.5vw, 70px);
+                    bottom: unset;
                 }
                 &.position--bottom{
-                    justify-content: flex-end;
+                    bottom: clamp(20px, 4.5vw, 70px);
+                    top: unset;
                 }
             }
           
@@ -128,6 +132,12 @@
             .rimage-outer-wrapper{
                 margin: unset;
                 height: 100%;
+
+                &.ar-sticker{
+                    background-color: #fff;
+                    border-radius: 8rem;
+                    padding: 1rem;
+                }
 
                 &.landscape{
                     aspect-ratio: 3/2;
