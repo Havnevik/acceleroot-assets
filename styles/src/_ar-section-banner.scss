@@ -31,6 +31,12 @@
                 width: auto;
                 height: 8rem;
 
+                 &.ar-sticker{
+                    background-color: #fff;
+                    border-radius: 8rem;
+                    padding: 1rem;
+                }
+
                 &.landscape{
                     aspect-ratio: 3/2;
                 }
@@ -132,12 +138,6 @@
             .rimage-outer-wrapper{
                 margin: unset;
                 height: 100%;
-
-                &.ar-sticker{
-                    background-color: #fff;
-                    border-radius: 8rem;
-                    padding: 1rem;
-                }
 
                 &.landscape{
                     aspect-ratio: 3/2;
