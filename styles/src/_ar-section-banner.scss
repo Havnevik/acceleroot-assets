@@ -39,7 +39,7 @@
                     text-transform: unset;
                     font-size: 0.875rem;
                     font-weight: 500;
-                    margin-bottom: 0.5rem;
+                    margin-bottom: unset;
                 }
             }
 
@@ -122,6 +122,9 @@
             .fineprint{
                 font-weight: 600;
                 font-size: clamp(65%, 50vh ,80%);
+            }
+            .enlarge_text{
+                font-size: clamp(125%, 50vh ,160%);
             }
         }
     }
