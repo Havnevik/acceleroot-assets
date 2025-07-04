@@ -56,7 +56,6 @@
     const rightBtn = container.querySelector(rightSelector);
     if (!scrollContainer || !leftBtn || !rightBtn) return;
 
-    // Oppdaterer synligheten på piler avhengig av innhold og posisjon
     const updateArrows = () => {
       const cards = scrollContainer.querySelectorAll('article');
       let totalWidth = 0;
@@ -74,19 +73,16 @@
       rightBtn.style.display = (show && scrollLeft < maxScrollLeft - 1) ? 'flex' : 'none';
     };
 
-    // Scroll ett kort av gangen
     const scrollByCard = direction => {
       const card = scrollContainer.querySelector('article');
       const cardWidth = card ? card.offsetWidth + 24 : 320;
       scrollContainer.scrollBy({ left: direction * cardWidth, behavior: 'smooth' });
     };
 
-    // Klikk på piler
     leftBtn.addEventListener('click', () => scrollByCard(-1));
     rightBtn.addEventListener('click', () => scrollByCard(1));
     scrollContainer.addEventListener('scroll', () => requestAnimationFrame(updateArrows));
 
-    // Drag-funksjon med mus
     let startX = 0, scrollStart = 0;
     scrollContainer.addEventListener('mousedown', e => {
       isDragging = true;
@@ -111,13 +107,12 @@
     updateArrows();
   }
 
-  // ——— 3. Modal-funksjon knyttet til .modal-cards-scroll ———
+  // ——— 3. Modal-funksjon for alle section--modal-cards ———
   function enableModalCards() {
-    const scrollContainer = document.querySelectorAll('.modal-cards-scroll');
+    const scrollContainers = document.querySelectorAll('.modal-cards-scroll');
     const originalContainer = document.querySelector('.acceleroot-modal');
-    if (!scrollContainer || !originalContainer) return;
+    if (!scrollContainers.length || !originalContainer) return;
 
-    // Legg til overlay i DOM
     const overlay = document.createElement('div');
     overlay.id = 'modal-overlay';
     overlay.setAttribute('role', 'dialog');
@@ -127,7 +122,6 @@
 
     let lastFocused = null;
 
-    // Fanger fokus inne i modal
     const trapFocus = el => {
       const focusable = el.querySelectorAll('a, button, [tabindex]:not([tabindex="-1"])');
       const first = focusable[0];
@@ -143,9 +137,8 @@
       });
     };
 
-    // Åpne modal med gitt blockId
     const openModal = blockId => {
-      const section = originalContainer.querySelector('section[data-block-id="' + blockId + '"]');
+      const section = originalContainer.querySelector(`section[data-block-id="${blockId}"]`);
       if (!section) return;
 
       lastFocused = document.activeElement;
@@ -173,7 +166,6 @@
       document.body.style.overflow = 'hidden';
     };
 
-    // Lukk modal
     const closeModal = () => {
       const section = overlay.querySelector('section[data-block-id]');
       if (section) {
@@ -185,33 +177,31 @@
       if (lastFocused) lastFocused.focus();
     };
 
-    // Lukk ved klikk på overlay
     overlay.addEventListener('click', e => {
       if (e.target === overlay) closeModal();
     });
 
-    // Lukk ved ESC
     document.addEventListener('keydown', e => {
       if (e.key === 'Escape' && overlay.classList.contains('active')) closeModal();
     });
 
-    // Aktiver bare kort som har class .has-modal
-    const articles = scrollContainer.querySelectorAll('article.has-modal');
-    for (let i = 0; i < articles.length; i++) {
-      const article = articles[i];
-      let clickStart = { x: 0, y: 0 };
+    scrollContainers.forEach(scrollContainer => {
+      const articles = scrollContainer.querySelectorAll('article.has-modal');
+      articles.forEach(article => {
+        let clickStart = { x: 0, y: 0 };
 
-      article.addEventListener('mousedown', e => {
-        clickStart = { x: e.clientX, y: e.clientY };
-      });
+        article.addEventListener('mousedown', e => {
+          clickStart = { x: e.clientX, y: e.clientY };
+        });
 
-      article.addEventListener('click', e => {
-        if (isDragging) return;
-        const dist = Math.hypot(e.clientX - clickStart.x, e.clientY - clickStart.y);
-        if (dist > dragThreshold) return;
-        openModal(article.id);
+        article.addEventListener('click', e => {
+          if (isDragging) return;
+          const dist = Math.hypot(e.clientX - clickStart.x, e.clientY - clickStart.y);
+          if (dist > dragThreshold) return;
+          openModal(article.id);
+        });
       });
-    }
+    });
   }
 
   // ——— 4. Init ———
@@ -222,7 +212,6 @@
     enableModalCards();
   }
 
-  // Init ved DOM ready
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initAll);
   } else {
