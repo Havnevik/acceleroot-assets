@@ -1,3 +1,4 @@
+
 (function () {
   const dragThreshold = 5;
 
