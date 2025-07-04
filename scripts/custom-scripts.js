@@ -1,8 +1,8 @@
-
 (function () {
   const dragThreshold = 5;
+  let isDragging = false;
 
-  // ——— BEFORE/AFTER-bildekomponent ———
+  // ——— 1. BEFORE/AFTER-bildekomponent ———
   function enableImageComparisons() {
     document.querySelectorAll('.image-comparison').forEach(container => {
       const figure = container.querySelector('figure');
@@ -46,28 +46,23 @@
     });
   }
 
-  // ——— Horisontal slider og modal per seksjon ———
-  function setupModalCardSection(section) {
-    const scrollContainer = section.querySelector('.modal-cards-scroll');
-    const leftBtn = section.querySelector('.modal-cards-slider-arrow.left');
-    const rightBtn = section.querySelector('.modal-cards-slider-arrow.right');
-    const modalSource = document.querySelector(`#${section.id.replace('shopify-section', 'section-id')}`);
-    if (!scrollContainer || !leftBtn || !rightBtn || !modalSource) return;
+  // ——— 2. Horisontal slider-funksjon (felles for testimonial og modal-kort) ———
+  function setupSlider(containerSelector, scrollSelector, leftSelector, rightSelector) {
+    const container = document.querySelector(containerSelector);
+    if (!container) return;
 
-    const overlay = document.createElement('div');
-    overlay.className = 'modal-overlay';
-    overlay.setAttribute('role', 'dialog');
-    overlay.setAttribute('aria-modal', 'true');
-    overlay.setAttribute('tabindex', '-1');
-    section.appendChild(overlay);
+    const scrollContainer = container.querySelector(scrollSelector);
+    const leftBtn = container.querySelector(leftSelector);
+    const rightBtn = container.querySelector(rightSelector);
+    if (!scrollContainer || !leftBtn || !rightBtn) return;
 
-    let lastFocused = null;
-    let isDragging = false;
-
+    // Oppdaterer synligheten på piler avhengig av innhold og posisjon
     const updateArrows = () => {
       const cards = scrollContainer.querySelectorAll('article');
       let totalWidth = 0;
-      cards.forEach(card => totalWidth += card.offsetWidth);
+      for (let i = 0; i < cards.length; i++) {
+        totalWidth += cards[i].offsetWidth;
+      }
       totalWidth += (cards.length - 1) * 24;
 
       const visibleWidth = scrollContainer.clientWidth;
@@ -79,16 +74,19 @@
       rightBtn.style.display = (show && scrollLeft < maxScrollLeft - 1) ? 'flex' : 'none';
     };
 
+    // Scroll ett kort av gangen
     const scrollByCard = direction => {
       const card = scrollContainer.querySelector('article');
       const cardWidth = card ? card.offsetWidth + 24 : 320;
       scrollContainer.scrollBy({ left: direction * cardWidth, behavior: 'smooth' });
     };
 
+    // Klikk på piler
     leftBtn.addEventListener('click', () => scrollByCard(-1));
     rightBtn.addEventListener('click', () => scrollByCard(1));
     scrollContainer.addEventListener('scroll', () => requestAnimationFrame(updateArrows));
 
+    // Drag-funksjon med mus
     let startX = 0, scrollStart = 0;
     scrollContainer.addEventListener('mousedown', e => {
       isDragging = true;
@@ -103,17 +101,38 @@
       scrollContainer.scrollLeft = scrollStart - (x - startX);
     });
 
-    ['mouseup', 'mouseleave'].forEach(evt =>
-      scrollContainer.addEventListener(evt, () => {
+    ['mouseup', 'mouseleave'].forEach(eventName => {
+      scrollContainer.addEventListener(eventName, () => {
         isDragging = false;
         scrollContainer.classList.remove('dragging');
-      })
-    );
+      });
+    });
 
+    updateArrows();
+  }
+
+  // ——— 3. Modal-funksjon knyttet til .modal-cards-scroll ———
+  function enableModalCards() {
+    const scrollContainer = document.querySelectorAll('.modal-cards-scroll');
+    const originalContainer = document.querySelector('.acceleroot-modal');
+    if (!scrollContainer || !originalContainer) return;
+
+    // Legg til overlay i DOM
+    const overlay = document.createElement('div');
+    overlay.id = 'modal-overlay';
+    overlay.setAttribute('role', 'dialog');
+    overlay.setAttribute('aria-modal', 'true');
+    overlay.setAttribute('tabindex', '-1');
+    document.body.appendChild(overlay);
+
+    let lastFocused = null;
+
+    // Fanger fokus inne i modal
     const trapFocus = el => {
-      const f = el.querySelectorAll('a, button, [tabindex]:not([tabindex="-1"])');
-      const first = f[0];
-      const last = f[f.length - 1];
+      const focusable = el.querySelectorAll('a, button, [tabindex]:not([tabindex="-1"])');
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+
       el.addEventListener('keydown', e => {
         if (e.key !== 'Tab') return;
         if (e.shiftKey && document.activeElement === first) {
@@ -124,22 +143,13 @@
       });
     };
 
-    const closeModal = () => {
-      const section = overlay.querySelector('section[data-block-id]');
-      if (section) {
-        modalSource.appendChild(section);
-        section.style.display = 'none';
-      }
-      overlay.classList.remove('active');
-      document.body.style.overflow = '';
-      if (lastFocused) lastFocused.focus();
-    };
-
+    // Åpne modal med gitt blockId
     const openModal = blockId => {
-      const section = modalSource.querySelector(`section[data-block-id="${blockId}"]`);
+      const section = originalContainer.querySelector('section[data-block-id="' + blockId + '"]');
       if (!section) return;
 
       lastFocused = document.activeElement;
+
       const modalInner = document.createElement('div');
       modalInner.className = 'modal-inner';
 
@@ -155,6 +165,7 @@
       overlay.innerHTML = '';
       overlay.appendChild(modalInner);
       overlay.classList.add('active');
+
       section.style.display = 'block';
       section.setAttribute('tabindex', '-1');
       section.focus();
@@ -162,39 +173,59 @@
       document.body.style.overflow = 'hidden';
     };
 
+    // Lukk modal
+    const closeModal = () => {
+      const section = overlay.querySelector('section[data-block-id]');
+      if (section) {
+        originalContainer.appendChild(section);
+        section.style.display = 'none';
+      }
+      overlay.classList.remove('active');
+      document.body.style.overflow = '';
+      if (lastFocused) lastFocused.focus();
+    };
+
+    // Lukk ved klikk på overlay
     overlay.addEventListener('click', e => {
       if (e.target === overlay) closeModal();
     });
 
+    // Lukk ved ESC
     document.addEventListener('keydown', e => {
       if (e.key === 'Escape' && overlay.classList.contains('active')) closeModal();
     });
 
-    scrollContainer.querySelectorAll('article.has-modal').forEach(article => {
+    // Aktiver bare kort som har class .has-modal
+    const articles = scrollContainer.querySelectorAll('article.has-modal');
+    for (let i = 0; i < articles.length; i++) {
+      const article = articles[i];
       let clickStart = { x: 0, y: 0 };
+
       article.addEventListener('mousedown', e => {
         clickStart = { x: e.clientX, y: e.clientY };
       });
+
       article.addEventListener('click', e => {
         if (isDragging) return;
         const dist = Math.hypot(e.clientX - clickStart.x, e.clientY - clickStart.y);
         if (dist > dragThreshold) return;
         openModal(article.id);
       });
-    });
-
-    updateArrows();
+    }
   }
 
-  // ——— Init ———
-  function init() {
+  // ——— 4. Init ———
+  function initAll() {
     enableImageComparisons();
-    document.querySelectorAll('.section--modal-cards').forEach(setupModalCardSection);
+    setupSlider('.testimonial-slider', '.testimonial-scroll', '.testimonial-slider-arrow.left', '.testimonial-slider-arrow.right');
+    setupSlider('.modal-cards-slider', '.modal-cards-scroll', '.modal-cards-slider-arrow.left', '.modal-cards-slider-arrow.right');
+    enableModalCards();
   }
 
+  // Init ved DOM ready
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
+    document.addEventListener('DOMContentLoaded', initAll);
   } else {
-    init();
+    initAll();
   }
 })();
