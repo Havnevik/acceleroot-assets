@@ -36,6 +36,14 @@
       "rFN" : 0,
       "uCM" : 0
     },
+    "\/scripts\/_custom-scripts.backup" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 1,
+      "oAP" : "\/scripts\/_custom-scripts.backup",
+      "oF" : 0
+    },
     "\/scripts\/custom-scripts-min.js" : {
       "bF" : 0,
       "ft" : 64,

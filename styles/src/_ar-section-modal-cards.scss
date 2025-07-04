@@ -22,6 +22,10 @@
     }
   }
 
+  > header{
+    max-width: 62ch;
+  }
+
    > div{
     display: flex;
     flex-direction: column;
