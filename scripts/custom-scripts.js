@@ -46,71 +46,70 @@
     });
   }
 
-  // ——— 2. Horisontal slider-funksjon (felles for testimonial og modal-kort) ———
- function setupSlider(container, scrollSelector, leftSelector, rightSelector) {
-  if (!container) return;
+  // ——— 2. Horisontal slider ———
+  function setupSlider(container, scrollSelector, leftSelector, rightSelector) {
+    if (!container) return;
 
-  const scrollContainer = container.querySelector(scrollSelector);
-  const leftBtn = container.querySelector(leftSelector);
-  const rightBtn = container.querySelector(rightSelector);
-  if (!scrollContainer || !leftBtn || !rightBtn) return;
+    const scrollContainer = container.querySelector(scrollSelector);
+    const leftBtn = container.querySelector(leftSelector);
+    const rightBtn = container.querySelector(rightSelector);
+    if (!scrollContainer || !leftBtn || !rightBtn) return;
 
-  const updateArrows = () => {
-    const cards = scrollContainer.querySelectorAll('article');
-    let totalWidth = 0;
-    for (let i = 0; i < cards.length; i++) {
-      totalWidth += cards[i].offsetWidth;
-    }
-    totalWidth += (cards.length - 1) * 24;
+    const updateArrows = () => {
+      const cards = scrollContainer.querySelectorAll('article');
+      let totalWidth = 0;
+      for (let i = 0; i < cards.length; i++) {
+        totalWidth += cards[i].offsetWidth;
+      }
+      totalWidth += (cards.length - 1) * 24;
 
-    const visibleWidth = scrollContainer.clientWidth;
-    const scrollLeft = scrollContainer.scrollLeft;
-    const maxScrollLeft = scrollContainer.scrollWidth - visibleWidth;
-    const show = totalWidth > visibleWidth;
+      const visibleWidth = scrollContainer.clientWidth;
+      const scrollLeft = scrollContainer.scrollLeft;
+      const maxScrollLeft = scrollContainer.scrollWidth - visibleWidth;
+      const show = totalWidth > visibleWidth;
 
-    leftBtn.style.display = (show && scrollLeft > 1) ? 'flex' : 'none';
-    rightBtn.style.display = (show && scrollLeft < maxScrollLeft - 1) ? 'flex' : 'none';
-  };
+      leftBtn.style.display = (show && scrollLeft > 1) ? 'flex' : 'none';
+      rightBtn.style.display = (show && scrollLeft < maxScrollLeft - 1) ? 'flex' : 'none';
+    };
 
-  const scrollByCard = direction => {
-    const card = scrollContainer.querySelector('article');
-    const cardWidth = card ? card.offsetWidth + 24 : 320;
-    scrollContainer.scrollBy({ left: direction * cardWidth, behavior: 'smooth' });
-  };
+    const scrollByCard = direction => {
+      const card = scrollContainer.querySelector('article');
+      const cardWidth = card ? card.offsetWidth + 24 : 320;
+      scrollContainer.scrollBy({ left: direction * cardWidth, behavior: 'smooth' });
+    };
 
-  leftBtn.addEventListener('click', () => scrollByCard(-1));
-  rightBtn.addEventListener('click', () => scrollByCard(1));
-  scrollContainer.addEventListener('scroll', () => requestAnimationFrame(updateArrows));
+    leftBtn.addEventListener('click', () => scrollByCard(-1));
+    rightBtn.addEventListener('click', () => scrollByCard(1));
+    scrollContainer.addEventListener('scroll', () => requestAnimationFrame(updateArrows));
 
-  let startX = 0, scrollStart = 0;
-  scrollContainer.addEventListener('mousedown', e => {
-    isDragging = true;
-    scrollContainer.classList.add('dragging');
-    startX = e.pageX - scrollContainer.offsetLeft;
-    scrollStart = scrollContainer.scrollLeft;
-  });
-
-  scrollContainer.addEventListener('mousemove', e => {
-    if (!isDragging) return;
-    const x = e.pageX - scrollContainer.offsetLeft;
-    scrollContainer.scrollLeft = scrollStart - (x - startX);
-  });
-
-  ['mouseup', 'mouseleave'].forEach(eventName => {
-    scrollContainer.addEventListener(eventName, () => {
-      isDragging = false;
-      scrollContainer.classList.remove('dragging');
+    let startX = 0, scrollStart = 0;
+    scrollContainer.addEventListener('mousedown', e => {
+      isDragging = true;
+      scrollContainer.classList.add('dragging');
+      startX = e.pageX - scrollContainer.offsetLeft;
+      scrollStart = scrollContainer.scrollLeft;
     });
-  });
 
-  updateArrows();
-}
+    scrollContainer.addEventListener('mousemove', e => {
+      if (!isDragging) return;
+      const x = e.pageX - scrollContainer.offsetLeft;
+      scrollContainer.scrollLeft = scrollStart - (x - startX);
+    });
 
-  // ——— 3. Modal-funksjon for alle section--modal-cards ———
+    ['mouseup', 'mouseleave'].forEach(eventName => {
+      scrollContainer.addEventListener(eventName, () => {
+        isDragging = false;
+        scrollContainer.classList.remove('dragging');
+      });
+    });
+
+    updateArrows();
+  }
+
+  // ——— 3. Modal-funksjon med data-section-id ———
   function enableModalCards() {
     const scrollContainers = document.querySelectorAll('.modal-cards-scroll');
-    const originalContainer = document.querySelector('.acceleroot-modal');
-    if (!scrollContainers.length || !originalContainer) return;
+    if (!scrollContainers.length) return;
 
     const overlay = document.createElement('div');
     overlay.id = 'modal-overlay';
@@ -136,11 +135,12 @@
       });
     };
 
-    const openModal = blockId => {
-      const section = originalContainer.querySelector(`section[data-block-id="${blockId}"]`);
-      console.log('Prøver å åpne modal:', blockId);
-      console.log('Fant section:', section);
-
+    const openModal = (blockId, sectionId) => {
+      const originalContainer = document.querySelector(`.acceleroot-modal[data-section-id="${sectionId}"]`);
+      let section = null;
+      if (originalContainer) {
+        section = originalContainer.querySelector(`section[data-block-id="${blockId}"]`);
+      }
       if (!section) return;
 
       lastFocused = document.activeElement;
@@ -171,8 +171,16 @@
     const closeModal = () => {
       const section = overlay.querySelector('section[data-block-id]');
       if (section) {
-        originalContainer.appendChild(section);
-        section.style.display = 'none';
+        let sectionId = null;
+        const closestSection = section.closest('.section--modal-cards');
+        if (closestSection) {
+          sectionId = closestSection.id;
+        }
+        const originalContainer = document.querySelector(`.acceleroot-modal[data-section-id="${sectionId}"]`);
+        if (originalContainer) {
+          originalContainer.appendChild(section);
+          section.style.display = 'none';
+        }
       }
       overlay.classList.remove('active');
       document.body.style.overflow = '';
@@ -188,6 +196,10 @@
     });
 
     scrollContainers.forEach(scrollContainer => {
+      const parentSection = scrollContainer.closest('.section--modal-cards');
+      const sectionId = parentSection ? parentSection.id : null;
+      if (!sectionId) return;
+
       const articles = scrollContainer.querySelectorAll('article.has-modal');
       articles.forEach(article => {
         let clickStart = { x: 0, y: 0 };
@@ -200,31 +212,31 @@
           if (isDragging) return;
           const dist = Math.hypot(e.clientX - clickStart.x, e.clientY - clickStart.y);
           if (dist > dragThreshold) return;
-          openModal(article.id);
+          openModal(article.id, sectionId);
         });
       });
     });
   }
 
   // ——— 4. Init ———
-function initAll() {
-  enableImageComparisons();
+  function initAll() {
+    enableImageComparisons();
 
-  // Init testimonial-slider (bare én)
-  setupSlider(
-    document.querySelector('.testimonial-slider'),
-    '.testimonial-scroll',
-    '.testimonial-slider-arrow.left',
-    '.testimonial-slider-arrow.right'
-  );
+    // Én testimonial-slider
+    setupSlider(
+      document.querySelector('.testimonial-slider'),
+      '.testimonial-scroll',
+      '.testimonial-slider-arrow.left',
+      '.testimonial-slider-arrow.right'
+    );
 
-  // Init alle modal-cards-slidere (flere)
-  document.querySelectorAll('.modal-cards-slider').forEach(slider => {
-    setupSlider(slider, '.modal-cards-scroll', '.modal-cards-slider-arrow.left', '.modal-cards-slider-arrow.right');
-  });
+    // Alle modal-cards-slidere
+    document.querySelectorAll('.modal-cards-slider').forEach(slider => {
+      setupSlider(slider, '.modal-cards-scroll', '.modal-cards-slider-arrow.left', '.modal-cards-slider-arrow.right');
+    });
 
-  enableModalCards();
-}
+    enableModalCards();
+  }
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initAll);
