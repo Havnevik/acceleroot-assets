@@ -5,6 +5,9 @@
                 height: clamp(37.5rem, 80vh, 50rem);
             }
         }
+        .image-overlay{
+            color: unset;
+        }
 
         .ar-banner-veil{
             position: absolute;
@@ -12,6 +15,10 @@
             letter-spacing: 0;
             width: 100%;
             height: 100%;
+        }
+
+        .ar-color-bg{
+            height: clamp(37.5rem,80vh,50rem);
         }
 
         .ar-banner-content{
