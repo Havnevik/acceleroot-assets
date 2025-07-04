@@ -22,14 +22,23 @@
     }
   }
 
-  > header{
-    max-width: 62ch;
-  }
-
    > div{
     display: flex;
     flex-direction: column;
     gap:2rem;
+
+      > header{
+        max-width: 62ch;
+      }
+      
+      .button-row{
+        margin-top: unset;
+        display: flex;
+        flex-direction: row;
+        gap: 1.5rem;
+
+    }
+
   }
 
   .modal-cards-slider {
@@ -94,14 +103,6 @@
 
         header h2{
             margin-bottom: 2rem;
-        }
-
-         .button-row{
-            margin-top: unset;
-            display: flex;
-            flex-direction: row;
-            gap: 1.5rem;
-
         }
 
 
