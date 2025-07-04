@@ -138,8 +138,8 @@
 
     const openModal = blockId => {
       const section = originalContainer.querySelector(`section[data-block-id="${blockId}"]`);
-      console.log('🔍 Prøver å åpne modal:', blockId);
-      console.log('→ Fant section:', section);
+      console.log('Prøver å åpne modal:', blockId);
+      console.log('Fant section:', section);
 
       if (!section) return;
 
