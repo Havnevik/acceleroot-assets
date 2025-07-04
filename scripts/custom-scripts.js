@@ -59,29 +59,25 @@
     // Oppdaterer synligheten på piler avhengig av innhold og posisjon
     const updateArrows = () => {
       const cards = scrollContainer.querySelectorAll('article');
-      let totalWidth = 0;
-      for (let i = 0; i < cards.length; i++) {
-        totalWidth += cards[i].offsetWidth;
-      }
-      totalWidth += (cards.length - 1) * 24;
+      if (!cards.length) return;
 
       const visibleWidth = scrollContainer.clientWidth;
+      const totalContentWidth = Array.from(cards).reduce((sum, card) => sum + card.offsetWidth, 0) + ((cards.length - 1) * 24);
+      const canScroll = totalContentWidth > visibleWidth;
       const scrollLeft = scrollContainer.scrollLeft;
-      const maxScrollLeft = scrollContainer.scrollWidth - visibleWidth;
-      const show = totalWidth > visibleWidth;
+      const scrollRight = scrollLeft + visibleWidth;
+      const maxScroll = scrollContainer.scrollWidth;
 
-      leftBtn.style.display = (show && scrollLeft > 1) ? 'flex' : 'none';
-      rightBtn.style.display = (show && scrollLeft < maxScrollLeft - 1) ? 'flex' : 'none';
+      leftBtn.style.display = (canScroll && scrollLeft > 1) ? 'flex' : 'none';
+      rightBtn.style.display = (canScroll && scrollRight < maxScroll - 1) ? 'flex' : 'none';
     };
 
-    // Scroll ett kort av gangen
     const scrollByCard = direction => {
       const card = scrollContainer.querySelector('article');
       const cardWidth = card ? card.offsetWidth + 24 : 320;
       scrollContainer.scrollBy({ left: direction * cardWidth, behavior: 'smooth' });
     };
 
-    // Klikk på piler
     leftBtn.addEventListener('click', () => scrollByCard(-1));
     rightBtn.addEventListener('click', () => scrollByCard(1));
     scrollContainer.addEventListener('scroll', () => requestAnimationFrame(updateArrows));
@@ -117,7 +113,6 @@
     const originalContainer = document.querySelector('.acceleroot-modal');
     if (!scrollContainer || !originalContainer) return;
 
-    // Legg til overlay i DOM
     const overlay = document.createElement('div');
     overlay.id = 'modal-overlay';
     overlay.setAttribute('role', 'dialog');
@@ -127,12 +122,10 @@
 
     let lastFocused = null;
 
-    // Fanger fokus inne i modal
     const trapFocus = el => {
       const focusable = el.querySelectorAll('a, button, [tabindex]:not([tabindex="-1"])');
       const first = focusable[0];
       const last = focusable[focusable.length - 1];
-
       el.addEventListener('keydown', e => {
         if (e.key !== 'Tab') return;
         if (e.shiftKey && document.activeElement === first) {
@@ -143,9 +136,8 @@
       });
     };
 
-    // Åpne modal med gitt blockId
     const openModal = blockId => {
-      const section = originalContainer.querySelector('section[data-block-id="' + blockId + '"]');
+      const section = originalContainer.querySelector(`section[data-block-id="${blockId}"]`);
       if (!section) return;
 
       lastFocused = document.activeElement;
@@ -173,7 +165,6 @@
       document.body.style.overflow = 'hidden';
     };
 
-    // Lukk modal
     const closeModal = () => {
       const section = overlay.querySelector('section[data-block-id]');
       if (section) {
@@ -185,33 +176,27 @@
       if (lastFocused) lastFocused.focus();
     };
 
-    // Lukk ved klikk på overlay
     overlay.addEventListener('click', e => {
       if (e.target === overlay) closeModal();
     });
 
-    // Lukk ved ESC
     document.addEventListener('keydown', e => {
       if (e.key === 'Escape' && overlay.classList.contains('active')) closeModal();
     });
 
-    // Aktiver bare kort som har class .has-modal
     const articles = scrollContainer.querySelectorAll('article.has-modal');
-    for (let i = 0; i < articles.length; i++) {
-      const article = articles[i];
+    articles.forEach(article => {
       let clickStart = { x: 0, y: 0 };
-
       article.addEventListener('mousedown', e => {
         clickStart = { x: e.clientX, y: e.clientY };
       });
-
       article.addEventListener('click', e => {
         if (isDragging) return;
         const dist = Math.hypot(e.clientX - clickStart.x, e.clientY - clickStart.y);
         if (dist > dragThreshold) return;
         openModal(article.id);
       });
-    }
+    });
   }
 
   // ——— 4. Init ———
@@ -222,7 +207,6 @@
     enableModalCards();
   }
 
-  // Init ved DOM ready
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initAll);
   } else {
