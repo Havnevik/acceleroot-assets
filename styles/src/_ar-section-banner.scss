@@ -89,7 +89,8 @@
                gap: clamp(1.5rem, 2vw, 2.5rem);
             }
 
-            h1,h2,p{
+            h1,h2,p,li, .ar-banner-text{
+                color: #fff;
                 text-align: left;
                 > small{
                     text-transform: unset;
