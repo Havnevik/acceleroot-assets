@@ -143,6 +143,8 @@
       }
       if (!section) return;
 
+      // Husk hvor den kom fra
+      section.setAttribute('data-original-section-id', sectionId);
       lastFocused = document.activeElement;
 
       const modalInner = document.createElement('div');
@@ -171,11 +173,7 @@
     const closeModal = () => {
       const section = overlay.querySelector('section[data-block-id]');
       if (section) {
-        let sectionId = null;
-        const closestSection = section.closest('.section--modal-cards');
-        if (closestSection) {
-          sectionId = closestSection.id;
-        }
+        const sectionId = section.getAttribute('data-original-section-id');
         const originalContainer = document.querySelector(`.acceleroot-modal[data-section-id="${sectionId}"]`);
         if (originalContainer) {
           originalContainer.appendChild(section);
@@ -222,7 +220,7 @@
   function initAll() {
     enableImageComparisons();
 
-    // Én testimonial-slider
+    // Testimonial-slider
     setupSlider(
       document.querySelector('.testimonial-slider'),
       '.testimonial-scroll',
