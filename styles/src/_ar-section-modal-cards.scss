@@ -55,6 +55,7 @@
       font-size: 1.25rem;
       cursor: pointer;
       line-height: 3.15rem;
+      transition: background-color ease 1s;
 
       &:hover{
           background-color:#00a98f !important;
