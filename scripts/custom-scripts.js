@@ -63,13 +63,20 @@
 
       const visibleWidth = scrollContainer.clientWidth;
       const totalContentWidth = Array.from(cards).reduce((sum, card) => sum + card.offsetWidth, 0) + ((cards.length - 1) * 24);
-      const canScroll = totalContentWidth > visibleWidth;
-      const scrollLeft = scrollContainer.scrollLeft;
-      const scrollRight = scrollLeft + visibleWidth;
-      const maxScroll = scrollContainer.scrollWidth;
 
-      leftBtn.style.display = (canScroll && scrollLeft > 1) ? 'flex' : 'none';
-      rightBtn.style.display = (canScroll && scrollRight < maxScroll - 1) ? 'flex' : 'none';
+      // Hvis alt innhold får plass, skjul piler
+      if (totalContentWidth <= visibleWidth + 1) {
+        leftBtn.style.display = 'none';
+        rightBtn.style.display = 'none';
+        return;
+      }
+
+      // Ellers, vis/hide piler basert på scrollposisjon
+      const scrollLeft = scrollContainer.scrollLeft;
+      const maxScrollLeft = scrollContainer.scrollWidth - visibleWidth;
+
+      leftBtn.style.display = scrollLeft > 1 ? 'flex' : 'none';
+      rightBtn.style.display = scrollLeft < maxScrollLeft - 1 ? 'flex' : 'none';
     };
 
     const scrollByCard = direction => {
