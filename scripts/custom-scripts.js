@@ -1,8 +1,7 @@
 (function () {
   const dragThreshold = 5;
-  let isDragging = false;
 
-  // ——— 1. BEFORE/AFTER-bildekomponent ———
+  // ——— BEFORE/AFTER-bildekomponent ———
   function enableImageComparisons() {
     document.querySelectorAll('.image-comparison').forEach(container => {
       const figure = container.querySelector('figure');
@@ -46,37 +45,37 @@
     });
   }
 
-  // ——— 2. Horisontal slider-funksjon (felles for testimonial og modal-kort) ———
-  function setupSlider(containerSelector, scrollSelector, leftSelector, rightSelector) {
-    const container = document.querySelector(containerSelector);
-    if (!container) return;
+  // ——— Horisontal slider og modal per seksjon ———
+  function setupModalCardSection(section) {
+    const scrollContainer = section.querySelector('.modal-cards-scroll');
+    const leftBtn = section.querySelector('.modal-cards-slider-arrow.left');
+    const rightBtn = section.querySelector('.modal-cards-slider-arrow.right');
+    const modalSource = document.querySelector(`#${section.id.replace('shopify-section', 'section-id')}`);
+    if (!scrollContainer || !leftBtn || !rightBtn || !modalSource) return;
 
-    const scrollContainer = container.querySelector(scrollSelector);
-    const leftBtn = container.querySelector(leftSelector);
-    const rightBtn = container.querySelector(rightSelector);
-    if (!scrollContainer || !leftBtn || !rightBtn) return;
+    const overlay = document.createElement('div');
+    overlay.className = 'modal-overlay';
+    overlay.setAttribute('role', 'dialog');
+    overlay.setAttribute('aria-modal', 'true');
+    overlay.setAttribute('tabindex', '-1');
+    section.appendChild(overlay);
 
-    // Oppdaterer synligheten på piler avhengig av innhold og posisjon
+    let lastFocused = null;
+    let isDragging = false;
+
     const updateArrows = () => {
       const cards = scrollContainer.querySelectorAll('article');
-      if (!cards.length) return;
+      let totalWidth = 0;
+      cards.forEach(card => totalWidth += card.offsetWidth);
+      totalWidth += (cards.length - 1) * 24;
 
       const visibleWidth = scrollContainer.clientWidth;
-      const totalContentWidth = Array.from(cards).reduce((sum, card) => sum + card.offsetWidth, 0) + ((cards.length - 1) * 24);
-
-      // Hvis alt innhold får plass, skjul piler
-      if (totalContentWidth <= visibleWidth + 1) {
-        leftBtn.style.display = 'none';
-        rightBtn.style.display = 'none';
-        return;
-      }
-
-      // Ellers, vis/hide piler basert på scrollposisjon
       const scrollLeft = scrollContainer.scrollLeft;
       const maxScrollLeft = scrollContainer.scrollWidth - visibleWidth;
+      const show = totalWidth > visibleWidth;
 
-      leftBtn.style.display = scrollLeft > 1 ? 'flex' : 'none';
-      rightBtn.style.display = scrollLeft < maxScrollLeft - 1 ? 'flex' : 'none';
+      leftBtn.style.display = (show && scrollLeft > 1) ? 'flex' : 'none';
+      rightBtn.style.display = (show && scrollLeft < maxScrollLeft - 1) ? 'flex' : 'none';
     };
 
     const scrollByCard = direction => {
@@ -89,7 +88,6 @@
     rightBtn.addEventListener('click', () => scrollByCard(1));
     scrollContainer.addEventListener('scroll', () => requestAnimationFrame(updateArrows));
 
-    // Drag-funksjon med mus
     let startX = 0, scrollStart = 0;
     scrollContainer.addEventListener('mousedown', e => {
       isDragging = true;
@@ -104,35 +102,17 @@
       scrollContainer.scrollLeft = scrollStart - (x - startX);
     });
 
-    ['mouseup', 'mouseleave'].forEach(eventName => {
-      scrollContainer.addEventListener(eventName, () => {
+    ['mouseup', 'mouseleave'].forEach(evt =>
+      scrollContainer.addEventListener(evt, () => {
         isDragging = false;
         scrollContainer.classList.remove('dragging');
-      });
-    });
-
-    updateArrows();
-  }
-
-  // ——— 3. Modal-funksjon knyttet til .modal-cards-scroll ———
-  function enableModalCards() {
-    const scrollContainer = document.querySelector('.modal-cards-scroll');
-    const originalContainer = document.querySelector('.acceleroot-modal');
-    if (!scrollContainer || !originalContainer) return;
-
-    const overlay = document.createElement('div');
-    overlay.id = 'modal-overlay';
-    overlay.setAttribute('role', 'dialog');
-    overlay.setAttribute('aria-modal', 'true');
-    overlay.setAttribute('tabindex', '-1');
-    document.body.appendChild(overlay);
-
-    let lastFocused = null;
+      })
+    );
 
     const trapFocus = el => {
-      const focusable = el.querySelectorAll('a, button, [tabindex]:not([tabindex="-1"])');
-      const first = focusable[0];
-      const last = focusable[focusable.length - 1];
+      const f = el.querySelectorAll('a, button, [tabindex]:not([tabindex="-1"])');
+      const first = f[0];
+      const last = f[f.length - 1];
       el.addEventListener('keydown', e => {
         if (e.key !== 'Tab') return;
         if (e.shiftKey && document.activeElement === first) {
@@ -143,12 +123,22 @@
       });
     };
 
+    const closeModal = () => {
+      const section = overlay.querySelector('section[data-block-id]');
+      if (section) {
+        modalSource.appendChild(section);
+        section.style.display = 'none';
+      }
+      overlay.classList.remove('active');
+      document.body.style.overflow = '';
+      if (lastFocused) lastFocused.focus();
+    };
+
     const openModal = blockId => {
-      const section = originalContainer.querySelector(`section[data-block-id="${blockId}"]`);
+      const section = modalSource.querySelector(`section[data-block-id="${blockId}"]`);
       if (!section) return;
 
       lastFocused = document.activeElement;
-
       const modalInner = document.createElement('div');
       modalInner.className = 'modal-inner';
 
@@ -164,23 +154,11 @@
       overlay.innerHTML = '';
       overlay.appendChild(modalInner);
       overlay.classList.add('active');
-
       section.style.display = 'block';
       section.setAttribute('tabindex', '-1');
       section.focus();
       trapFocus(modalInner);
       document.body.style.overflow = 'hidden';
-    };
-
-    const closeModal = () => {
-      const section = overlay.querySelector('section[data-block-id]');
-      if (section) {
-        originalContainer.appendChild(section);
-        section.style.display = 'none';
-      }
-      overlay.classList.remove('active');
-      document.body.style.overflow = '';
-      if (lastFocused) lastFocused.focus();
     };
 
     overlay.addEventListener('click', e => {
@@ -191,8 +169,7 @@
       if (e.key === 'Escape' && overlay.classList.contains('active')) closeModal();
     });
 
-    const articles = scrollContainer.querySelectorAll('article.has-modal');
-    articles.forEach(article => {
+    scrollContainer.querySelectorAll('article.has-modal').forEach(article => {
       let clickStart = { x: 0, y: 0 };
       article.addEventListener('mousedown', e => {
         clickStart = { x: e.clientX, y: e.clientY };
@@ -204,19 +181,19 @@
         openModal(article.id);
       });
     });
+
+    updateArrows();
   }
 
-  // ——— 4. Init ———
-  function initAll() {
+  // ——— Init ———
+  function init() {
     enableImageComparisons();
-    setupSlider('.testimonial-slider', '.testimonial-scroll', '.testimonial-slider-arrow.left', '.testimonial-slider-arrow.right');
-    setupSlider('.modal-cards-slider', '.modal-cards-scroll', '.modal-cards-slider-arrow.left', '.modal-cards-slider-arrow.right');
-    enableModalCards();
+    document.querySelectorAll('.section--modal-cards').forEach(setupModalCardSection);
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initAll);
+    document.addEventListener('DOMContentLoaded', init);
   } else {
-    initAll();
+    init();
   }
 })();
