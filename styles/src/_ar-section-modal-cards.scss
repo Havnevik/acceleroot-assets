@@ -96,6 +96,14 @@
             margin-bottom: 2rem;
         }
 
+         .button-row{
+            margin-top: unset;
+            display: flex;
+            flex-direction: row;
+            gap: 1.5rem;
+
+        }
+
 
         figure {
           position: relative;
@@ -147,13 +155,7 @@
             }
           }
         }
-         .button-row{
-                margin-top: unset;
-                display: flex;
-                flex-direction: row;
-                gap: 1.5rem;
-
-            }
+        
 
         .ar-button{
             position: absolute;
