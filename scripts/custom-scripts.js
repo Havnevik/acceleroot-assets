@@ -47,65 +47,64 @@
   }
 
   // ——— 2. Horisontal slider-funksjon (felles for testimonial og modal-kort) ———
-  function setupSlider(containerSelector, scrollSelector, leftSelector, rightSelector) {
-    const container = document.querySelector(containerSelector);
-    if (!container) return;
+ function setupSlider(container, scrollSelector, leftSelector, rightSelector) {
+  if (!container) return;
 
-    const scrollContainer = container.querySelector(scrollSelector);
-    const leftBtn = container.querySelector(leftSelector);
-    const rightBtn = container.querySelector(rightSelector);
-    if (!scrollContainer || !leftBtn || !rightBtn) return;
+  const scrollContainer = container.querySelector(scrollSelector);
+  const leftBtn = container.querySelector(leftSelector);
+  const rightBtn = container.querySelector(rightSelector);
+  if (!scrollContainer || !leftBtn || !rightBtn) return;
 
-    const updateArrows = () => {
-      const cards = scrollContainer.querySelectorAll('article');
-      let totalWidth = 0;
-      for (let i = 0; i < cards.length; i++) {
-        totalWidth += cards[i].offsetWidth;
-      }
-      totalWidth += (cards.length - 1) * 24;
+  const updateArrows = () => {
+    const cards = scrollContainer.querySelectorAll('article');
+    let totalWidth = 0;
+    for (let i = 0; i < cards.length; i++) {
+      totalWidth += cards[i].offsetWidth;
+    }
+    totalWidth += (cards.length - 1) * 24;
 
-      const visibleWidth = scrollContainer.clientWidth;
-      const scrollLeft = scrollContainer.scrollLeft;
-      const maxScrollLeft = scrollContainer.scrollWidth - visibleWidth;
-      const show = totalWidth > visibleWidth;
+    const visibleWidth = scrollContainer.clientWidth;
+    const scrollLeft = scrollContainer.scrollLeft;
+    const maxScrollLeft = scrollContainer.scrollWidth - visibleWidth;
+    const show = totalWidth > visibleWidth;
 
-      leftBtn.style.display = (show && scrollLeft > 1) ? 'flex' : 'none';
-      rightBtn.style.display = (show && scrollLeft < maxScrollLeft - 1) ? 'flex' : 'none';
-    };
+    leftBtn.style.display = (show && scrollLeft > 1) ? 'flex' : 'none';
+    rightBtn.style.display = (show && scrollLeft < maxScrollLeft - 1) ? 'flex' : 'none';
+  };
 
-    const scrollByCard = direction => {
-      const card = scrollContainer.querySelector('article');
-      const cardWidth = card ? card.offsetWidth + 24 : 320;
-      scrollContainer.scrollBy({ left: direction * cardWidth, behavior: 'smooth' });
-    };
+  const scrollByCard = direction => {
+    const card = scrollContainer.querySelector('article');
+    const cardWidth = card ? card.offsetWidth + 24 : 320;
+    scrollContainer.scrollBy({ left: direction * cardWidth, behavior: 'smooth' });
+  };
 
-    leftBtn.addEventListener('click', () => scrollByCard(-1));
-    rightBtn.addEventListener('click', () => scrollByCard(1));
-    scrollContainer.addEventListener('scroll', () => requestAnimationFrame(updateArrows));
+  leftBtn.addEventListener('click', () => scrollByCard(-1));
+  rightBtn.addEventListener('click', () => scrollByCard(1));
+  scrollContainer.addEventListener('scroll', () => requestAnimationFrame(updateArrows));
 
-    let startX = 0, scrollStart = 0;
-    scrollContainer.addEventListener('mousedown', e => {
-      isDragging = true;
-      scrollContainer.classList.add('dragging');
-      startX = e.pageX - scrollContainer.offsetLeft;
-      scrollStart = scrollContainer.scrollLeft;
+  let startX = 0, scrollStart = 0;
+  scrollContainer.addEventListener('mousedown', e => {
+    isDragging = true;
+    scrollContainer.classList.add('dragging');
+    startX = e.pageX - scrollContainer.offsetLeft;
+    scrollStart = scrollContainer.scrollLeft;
+  });
+
+  scrollContainer.addEventListener('mousemove', e => {
+    if (!isDragging) return;
+    const x = e.pageX - scrollContainer.offsetLeft;
+    scrollContainer.scrollLeft = scrollStart - (x - startX);
+  });
+
+  ['mouseup', 'mouseleave'].forEach(eventName => {
+    scrollContainer.addEventListener(eventName, () => {
+      isDragging = false;
+      scrollContainer.classList.remove('dragging');
     });
+  });
 
-    scrollContainer.addEventListener('mousemove', e => {
-      if (!isDragging) return;
-      const x = e.pageX - scrollContainer.offsetLeft;
-      scrollContainer.scrollLeft = scrollStart - (x - startX);
-    });
-
-    ['mouseup', 'mouseleave'].forEach(eventName => {
-      scrollContainer.addEventListener(eventName, () => {
-        isDragging = false;
-        scrollContainer.classList.remove('dragging');
-      });
-    });
-
-    updateArrows();
-  }
+  updateArrows();
+}
 
   // ——— 3. Modal-funksjon for alle section--modal-cards ———
   function enableModalCards() {
@@ -205,12 +204,24 @@
   }
 
   // ——— 4. Init ———
-  function initAll() {
-    enableImageComparisons();
-    setupSlider('.testimonial-slider', '.testimonial-scroll', '.testimonial-slider-arrow.left', '.testimonial-slider-arrow.right');
-    setupSlider('.modal-cards-slider', '.modal-cards-scroll', '.modal-cards-slider-arrow.left', '.modal-cards-slider-arrow.right');
-    enableModalCards();
-  }
+function initAll() {
+  enableImageComparisons();
+
+  // Init testimonial-slider (bare én)
+  setupSlider(
+    document.querySelector('.testimonial-slider'),
+    '.testimonial-scroll',
+    '.testimonial-slider-arrow.left',
+    '.testimonial-slider-arrow.right'
+  );
+
+  // Init alle modal-cards-slidere (flere)
+  document.querySelectorAll('.modal-cards-slider').forEach(slider => {
+    setupSlider(slider, '.modal-cards-scroll', '.modal-cards-slider-arrow.left', '.modal-cards-slider-arrow.right');
+  });
+
+  enableModalCards();
+}
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initAll);
