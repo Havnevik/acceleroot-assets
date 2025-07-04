@@ -57,32 +57,22 @@
     if (!scrollContainer || !leftBtn || !rightBtn) return;
 
     // Oppdaterer synligheten på piler avhengig av innhold og posisjon
-    function updateArrows(container, leftBtn, rightBtn) {
-      const scrollContainer = container?.querySelector(scrollSelector);
-      const cards = scrollContainer?.querySelectorAll('article');
-      if (!scrollContainer || !leftBtn || !rightBtn || !cards?.length) return;
-
-      const gap = 24;
-      const visibleWidth = scrollContainer.clientWidth;
-
-      const cardsTotalWidth = Array.from(cards).reduce((total, card) => {
-        return total + card.offsetWidth;
-      }, 0) + ((cards.length - 1) * gap);
-
-      const needsScroll = cardsTotalWidth > visibleWidth || scrollContainer.scrollWidth > scrollContainer.clientWidth;
-
-      if (!needsScroll) {
-        leftBtn.style.display = 'none';
-        rightBtn.style.display = 'none';
-        return;
+    const updateArrows = () => {
+      const cards = scrollContainer.querySelectorAll('article');
+      let totalWidth = 0;
+      for (let i = 0; i < cards.length; i++) {
+        totalWidth += cards[i].offsetWidth;
       }
+      totalWidth += (cards.length - 1) * 24;
 
+      const visibleWidth = scrollContainer.clientWidth;
       const scrollLeft = scrollContainer.scrollLeft;
       const maxScrollLeft = scrollContainer.scrollWidth - visibleWidth;
+      const show = totalWidth > visibleWidth;
 
-      leftBtn.style.display = scrollLeft <= 1 ? 'none' : 'flex';
-      rightBtn.style.display = scrollLeft >= maxScrollLeft - 1 ? 'none' : 'flex';
-    }
+      leftBtn.style.display = (show && scrollLeft > 1) ? 'flex' : 'none';
+      rightBtn.style.display = (show && scrollLeft < maxScrollLeft - 1) ? 'flex' : 'none';
+    };
 
     // Scroll ett kort av gangen
     const scrollByCard = direction => {
