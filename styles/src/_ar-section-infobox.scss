@@ -12,6 +12,7 @@
 
     summary {
       padding: 1rem;
+      padding-bottom: 3rem;
       cursor: pointer;
     }
 
@@ -42,7 +43,15 @@
     }
 
     .read summary .more-button::after{
-      content: attr( data-more-label);
+      content: attr( data-label);
+    }
+    .read summary .less-button{
+        position: absolute;
+        left: 1rem;
+        bottom: 1rem;
+      &::after{
+        content: attr( data-label);
+      }
     }
 
     > div {
@@ -60,6 +69,14 @@
 
       &.plus summary::after {
         content: "-";
+      }
+      &.read summary{
+        .more-button{
+          display: none;
+        }
+        .less-button{
+          display: block;
+        }
       }
     }
   }
