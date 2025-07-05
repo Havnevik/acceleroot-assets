@@ -12,7 +12,6 @@
 
     summary {
       padding: 1rem;
-      padding-bottom: 3rem;
       cursor: pointer;
     }
 
@@ -64,6 +63,10 @@
     }
 
     &[open] {
+      > div{
+        padding-bottom: 3rem;
+      }
+
       &.arrow summary::after {
         content: "↑";
       }
@@ -72,7 +75,6 @@
         content: "-";
       }
       &.read summary{
-        padding-bottom: 3rem;
 
         .more-button{
           display: none;
