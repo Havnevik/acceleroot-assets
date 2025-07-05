@@ -41,6 +41,10 @@
       content: "+";
     }
 
+    .read summary .more-button::after{
+      content: attr( data-more-label);
+    }
+
     > div {
       padding: 0 1rem 1rem;
 
@@ -67,6 +71,7 @@
   }
 
   .use-negative-colors {
+    .less-button,
     .more-button,
     details {
       border-color: var(--color-sand);
@@ -75,6 +80,7 @@
   }
 
   .use-white-bg {
+    .less-button,
     .more-button,
     details {
       background-color: #fff;
