@@ -41,14 +41,20 @@
       content: "+";
     }
 
-    &.read summary .more-button::after{
-      content: attr( data-label);
+    &.read summary .more-button{
+      position: absolute;
+      top: 2rem;
+      right: 1rem;
+      
+      &::after{
+        content: attr( data-label);
+      }
     }
     &.read summary .less-button{
         display: none;
         position: absolute;
-        left: 1rem;
-        bottom: 1rem;
+        top: 2rem;
+        right: 1rem;
         &::after{
           content: attr( data-label);
         }
@@ -59,13 +65,11 @@
 
       p {
         margin-top: 0;
+        max-width: max(30rem, 70%);
       }
     }
 
     &[open] {
-      > div{
-        padding-bottom: 3rem;
-      }
 
       &.arrow summary::after {
         content: "↑";
