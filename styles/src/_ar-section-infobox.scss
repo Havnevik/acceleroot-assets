@@ -42,16 +42,17 @@
       content: "+";
     }
 
-    .read summary .more-button::after{
+    &.read summary .more-button::after{
       content: attr( data-label);
     }
-    .read summary .less-button{
+    &.read summary .less-button{
+        display: none;
         position: absolute;
         left: 1rem;
         bottom: 1rem;
-      &::after{
-        content: attr( data-label);
-      }
+        &::after{
+          content: attr( data-label);
+        }
     }
 
     > div {
@@ -71,6 +72,8 @@
         content: "-";
       }
       &.read summary{
+        padding-bottom: 3rem;
+
         .more-button{
           display: none;
         }
