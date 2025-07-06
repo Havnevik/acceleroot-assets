@@ -23,10 +23,8 @@
             padding: unset;
             width: 100%;
             height: auto;
-            border-radius: 0.25rem;
-            overflow: hidden;
 
-            &.mobile-square{
+            &.mobile-square img{
                 aspect-ratio: 1/1;
             }
 
@@ -34,6 +32,7 @@
                 width: 100%;
                 height: 100%;
                 object-fit: cover;
+                border-radius: 0.5rem;
 
                 &.position--hcenter{
                     object-position: center;
@@ -84,7 +83,7 @@
         section > div{
               gap:2rem;
         }
-        figure.mobile-square{
+        figure.mobile-square img{
             aspect-ratio:unset;
         }
     }
