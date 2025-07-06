@@ -44,6 +44,17 @@
       "oAP" : "\/scripts\/_custom-scripts.backup",
       "oF" : 0
     },
+    "\/scripts\/📦 acceleroot-combined.js" : {
+      "bF" : 0,
+      "ft" : 64,
+      "ma" : 0,
+      "mi" : 1,
+      "oA" : 0,
+      "oAP" : "\/scripts\/📦 acceleroot-combined-min.js",
+      "oF" : 0,
+      "sC" : 3,
+      "tS" : 0
+    },
     "\/scripts\/acceleroot-final.js" : {
       "bF" : 0,
       "ft" : 64,
@@ -141,6 +152,19 @@
       "oS" : 0,
       "pg" : 0
     },
+    "\/styles\/src\/_ar-section-image.scss" : {
+      "aP" : 0,
+      "bl" : 0,
+      "co" : 0,
+      "ec" : 1,
+      "ft" : 4,
+      "ma" : 0,
+      "oA" : 1,
+      "oAP" : "\/styles\/src\/_ar-section-image.css",
+      "oF" : 0,
+      "oS" : 0,
+      "pg" : 0
+    },
     "\/styles\/src\/_ar-section-infobox.scss" : {
       "aP" : 0,
       "bl" : 0,
@@ -215,6 +239,19 @@
       "ma" : 0,
       "oA" : 1,
       "oAP" : "\/styles\/src\/_ar-section-text.css",
+      "oF" : 0,
+      "oS" : 0,
+      "pg" : 0
+    },
+    "\/styles\/src\/_ar-section-video.scss" : {
+      "aP" : 0,
+      "bl" : 0,
+      "co" : 0,
+      "ec" : 1,
+      "ft" : 4,
+      "ma" : 0,
+      "oA" : 1,
+      "oAP" : "\/styles\/src\/_ar-section-video.css",
       "oF" : 0,
       "oS" : 0,
       "pg" : 0

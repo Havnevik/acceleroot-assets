@@ -1,0 +1,91 @@
+  .section--image{
+        header{
+            padding: unset;
+
+            h2{
+                font-size: clamp(1.5rem, 3vw, 3rem);
+            }
+        }
+
+        .align-left{
+            h2,h3,h4,p,li{
+                text-align: left;
+            }
+        }
+        .align-center{
+            h2,h3,h4,p,li{
+                text-align: center;
+            }
+        }
+
+        figure{
+            margin: unset;
+            padding: unset;
+            width: 100%;
+            height: auto;
+            border-radius: 0.25rem;
+            overflow: hidden;
+
+            &.mobile-square{
+                aspect-ratio: 1/1;
+            }
+
+            img{
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+
+                &.position--hcenter{
+                    object-position: center;
+                }
+                &.position--vcenter{
+                    object-position: center;
+                }
+                &.position--left{
+                     object-position: left;
+                }
+                &.position--right{
+                   object-position: right;
+                }
+                &.position--top{
+                    object-position: top;
+                }
+                &.position--bottom{
+                     object-position: bottom;
+                }
+                
+            }
+
+            figcaption{
+                padding-top: 0.5rem;
+                font-weight: 600;
+                font-size: 80%;
+            }
+
+           
+        }
+
+        .button-row{
+            margin-top: unset;
+        }
+
+        section > div{
+            display: flex;
+            flex-direction: column;
+            gap:1rem;
+            margin-left: auto;
+            margin-right: auto;
+            width: calc(100% - 2rem);
+        }
+    }
+
+@media (min-width: 768px) {
+    .section--image{
+        section > div{
+              gap:2rem;
+        }
+        figure.mobile-square{
+            aspect-ratio:unset;
+        }
+    }
+} 
