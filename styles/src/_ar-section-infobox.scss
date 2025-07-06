@@ -1,126 +1,148 @@
+
 /* ------------------------------------------------
     AR INFOBOX sections 
    ------------------------------------------------ */
 
 .section--infobox {
-  details {
+
+  /* Felles styling for <details> og .ar-toggle-box */
+  details,
+  .ar-toggle-box {
     margin-left: auto;
     margin-right: auto;
     border: 1px solid var(--color-brown);
     border-radius: 0.25rem;
     position: relative;
+    background-color: #fff; /* fallback hvis ikke override */
+    
+  }
 
-    summary {
-      padding: 1rem;
-      cursor: pointer;
-    }
+  .ar-toggle-box{
+    padding-bottom: 1rem; 
+  }
 
-    &.arrow summary::after {
-      position: absolute;
-      right: 1rem;
-      top: 1rem;
-      width: 2.5rem;
-      height: 3.5rem;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 1.5rem;
-      content: "↓";
-    }
+  summary,
+  .ar-toggle-heading {
+    padding: 1rem;
+    text-align: left;
+  }
 
-    &.plus summary::after {
-      position: absolute;
-      right: 1rem;
-      top: 1rem;
-      width: 2.5rem;
-      height: 3.5rem;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 1.5rem;
-      content: "+";
-    }
+  summary{
+    cursor: pointer;
+  }
 
-    &.read summary .more-button{
-      position: absolute;
-      top: 2rem;
-      right: 1rem;
-      
-      &::after{
-        content: attr( data-label);
-      }
-    }
-    &.read summary .less-button{
-        display: none;
-        position: absolute;
-        top: 2rem;
-        right: 1rem;
-        &::after{
-          content: attr( data-label);
-        }
-    }
+  /* Variantikoner – felles styling */
+  details.arrow summary::after,
+  details.plus summary::after,
+  details.chevron summary::after {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    width: 2.5rem;
+    height: 3.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+  }
 
-    > div {
-      padding: 0 1rem 1rem;
+  /* Variantikoner – lukket tilstand */
+  details.arrow summary::after { content: "↓"; }
+  details.plus summary::after { content: "+"; }
+  details.chevron summary::after { content: "\2304"; }
 
-      p {
-        margin-top: 0;
-        max-width: max(30rem, 70%);
-      }
-    }
+  /* Variantikoner – åpen tilstand */
+  details[open].arrow summary::after { content: "↑"; }
+  details[open].plus summary::after { content: "-"; }
+  details[open].chevron summary::after { content: "\2303"; }
 
-    &[open] {
+  /* Innholdsblokk */
+  details > div,
+  .ar-toggle-content {
+    padding: 0 1rem 1rem;
+    margin-bottom: 1.5rem;
 
-      &.arrow summary::after {
-        content: "↑";
-      }
-
-      &.plus summary::after {
-        content: "-";
-      }
-      &.read summary{
-
-        .more-button{
-          display: none;
-        }
-        .less-button{
-          display: block;
-        }
-      }
+    p {
+      margin-top: 0;
+      max-width: max(30rem, 70%);
     }
   }
 
+  .ar-toggle-button{
+    margin-left: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  /* Knappe-tekst: vis mer / vis mindre */
+  .ar-toggle-button[aria-expanded="false"] .label-less {
+    display: none;
+  }
+  .ar-toggle-button[aria-expanded="true"] .label-more {
+    display: none;
+  }
+
+  /* Bakgrunnsjustering for full bredde */
   .container.use-custom-bg,
   &.has-alt-bg .container {
     max-width: unset;
     width: 100%;
   }
 
+  /* Fargevalg fra settings */
   .use-negative-colors {
-    .less-button,
-    .more-button,
-    details {
+    .ar-toggle-button,
+    details,
+    .ar-toggle-box {
       border-color: var(--color-sand);
       color: var(--color-sand);
     }
   }
 
   .use-white-bg {
-    .less-button,
-    .more-button,
-    details {
+    .ar-toggle-button,
+    details,
+    .ar-toggle-box {
       background-color: #fff;
       border-color: var(--color-brown);
       color: var(--color-brown);
     }
   }
-}
 
-@media screen and (max-width: 680px) {
-  .section--infobox details {
-    width: 90%;
+  /* Preview-modus med 75% gradient-fade */
+  .ar-toggle-box.preview-mode .ar-toggle-content {
+    max-height: 4rem;
+    overflow: hidden;
+    position: relative;
+    transition: max-height 0.3s ease;
+  }
 
-    summary {
+  .ar-toggle-box.preview-mode .ar-toggle-content::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(0deg,rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+  }
+
+  .ar-toggle-box.preview-mode.is-open .ar-toggle-content {
+    max-height: none;
+  }
+
+  .ar-toggle-box.preview-mode.is-open .ar-toggle-content::after {
+    display: none;
+  }
+
+  /* Mobiltilpasning */
+  @media screen and (max-width: 680px) {
+    details,
+    .ar-toggle-box {
+      width: 90%;
+    }
+
+    summary,
+    .ar-toggle-heading {
       padding-right: 4rem;
     }
   }

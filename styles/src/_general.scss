@@ -2,18 +2,6 @@
     Knapper 
    ------------------------------------------------ */
 
-button.less-button,
-button.less-button:hover,
-button.more-button,
-button.more-button:hover {
-  pointer-events: none;
-  background-color: unset;
-  border: 1px solid var(--color-brown);
-  color: var(--color-brown);
-  border-radius: 1.5rem;
-  padding: 0.25rem 0.75rem;
-}
-
 .button.outline {
   background-color: transparent;
   color: var(--color-brown);
@@ -38,3 +26,15 @@ button.more-button:hover {
       font-weight: 300;
   }
 }  
+
+button.ar-toggle-button {
+  background-color: transparent;
+  border: 1px solid var(--color-brown);
+  color: var(--color-brown);
+  border-radius: 1.5rem;
+  padding: 0.5rem 1rem;
+}
+button.ar-toggle-button:hover{
+   background-color:  var(--color-brown);
+   color: #fff;
+}
