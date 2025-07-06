@@ -74,6 +74,10 @@
     }
   }
 
+  .is-open .ar-toggle-content{
+    max-height: unset;
+  }
+
   .ar-toggle-button{
     margin-left: 1rem;
     margin-bottom: 1rem;
