@@ -19,6 +19,12 @@
 
   .ar-toggle-box{
     padding-bottom: 1rem; 
+
+    > * {
+      max-width: 45rem;
+      margin-left: auto;
+      margin-right: auto;
+    }
   }
 
   summary,
@@ -71,6 +77,9 @@
   .ar-toggle-button{
     margin-left: 1rem;
     margin-bottom: 1rem;
+    &:hover{
+      color: #fff;
+    }
   }
 
   /* Knappe-tekst: vis mer / vis mindre */
