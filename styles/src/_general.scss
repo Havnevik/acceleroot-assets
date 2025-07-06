@@ -39,6 +39,8 @@ button.ar-toggle-button:hover{
    color: #fff;
 }
 
+
+
 section.ar-longform{
     margin-left: auto;
     margin-right: auto;
@@ -50,3 +52,7 @@ section.ar-longform{
         
     }
 }
+
+.section--before-after .ar-longform{
+  max-width: 40rem;
+} 
