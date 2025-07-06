@@ -2,7 +2,9 @@
     font-weight: 600;
   }
 
-.section--text{
+.section--text section{
+    width: 100%;
+
     > div{
       max-width: 72ch;
 
